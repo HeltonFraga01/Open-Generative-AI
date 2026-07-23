@@ -11,17 +11,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install PyTorch CPU (pinned versions for compatibility)
 RUN pip install --no-cache-dir torch==2.5.1+cpu torchvision==0.20.1+cpu torchaudio==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu
 
-# Clone ComfyUI repository
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git /app/ComfyUI
+# Clone ComfyUI at stable tag v0.28.0
+RUN git clone --branch v0.28.0 https://github.com/comfyanonymous/ComfyUI.git /app/ComfyUI
+
+# Clone ComfyUI-Manager at stable tag 4.2.2
+RUN cd /app/ComfyUI/custom_nodes && \
+    git clone --branch 4.2.2 https://github.com/ltdrdata/ComfyUI-Manager.git
 
 # Install ComfyUI dependencies
 WORKDIR /app/ComfyUI
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install ComfyUI Frontend package
-RUN pip install --no-cache-dir comfyui-frontend-package --upgrade
+# Install ComfyUI-Manager dependencies
+RUN pip install --no-cache-dir -r custom_nodes/ComfyUI-Manager/requirements.txt
 
-# Backup default structures before symlinking
+# Backup default structures before symlinking (includes ComfyUI-Manager)
 RUN cp -r /app/ComfyUI/custom_nodes /app/ComfyUI/custom_nodes_default && \
     cp -r /app/ComfyUI/models /app/ComfyUI/models_default
 

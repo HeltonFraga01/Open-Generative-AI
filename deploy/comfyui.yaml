@@ -26,6 +26,7 @@ services:
         - "traefik.http.routers.comfyui.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.comfyui.loadbalancer.server.port=8188"
         # ── Autenticação Básica (HARDCODED diretamente para resiliência no Portainer) ──
+        # A senha gerada abaixo para 'nexusmind' é 'NexusGenerative2026!'
         - "traefik.http.middlewares.comfyui-auth.basicauth.users=nexusmind:$$apr1$$z5AMyJ1b$$XPkqxwBmT2foH8w8yjdOx."
         - "traefik.http.routers.comfyui.middlewares=comfyui-auth"
 
