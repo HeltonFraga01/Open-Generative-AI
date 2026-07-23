@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  comfyui:
+    image: ghcr.io/ai-dock/comfyui:cpu-22.04
+    environment:
+      # Força o ComfyUI a iniciar em modo CPU (essencial para servidores CPU-only)
+      - COMFYUI_FLAGS=--cpu
+      - WEB_ENABLE_AUTH=false
+    volumes:
+      - comfyui_workspace:/workspace
+    networks:
+      - network_public
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.comfyui.entrypoints=websecure"
+        - "traefik.http.routers.comfyui.rule=Host(`comfyui.nexusmind.digital`)"
+        - "traefik.http.routers.comfyui.priority=200"
+        - "traefik.http.routers.comfyui.tls=true"
+        - "traefik.http.routers.comfyui.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.comfyui.loadbalancer.server.port=8188"
+
+volumes:
+  comfyui_workspace:
+
+networks:
+  network_public:
+    external: true
