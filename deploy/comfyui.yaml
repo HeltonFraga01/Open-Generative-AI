@@ -2,13 +2,11 @@ version: '3.8'
 
 services:
   comfyui:
-    image: ghcr.io/ai-dock/comfyui:cpu-22.04
+    image: heltonfraga/comfyui:latest
     environment:
-      # Força o ComfyUI a iniciar em modo CPU (essencial para servidores CPU-only)
-      - COMFYUI_FLAGS=--cpu
       - WEB_ENABLE_AUTH=false
     volumes:
-      - comfyui_workspace:/workspace
+      - comfyui_workspace_v2:/workspace
     networks:
       - network_public
     deploy:
@@ -27,9 +25,12 @@ services:
         - "traefik.http.routers.comfyui.tls=true"
         - "traefik.http.routers.comfyui.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.comfyui.loadbalancer.server.port=8188"
+        # ── Autenticação Básica (HARDCODED diretamente para resiliência no Portainer) ──
+        - "traefik.http.middlewares.comfyui-auth.basicauth.users=nexusmind:$$apr1$$z5AMyJ1b$$XPkqxwBmT2foH8w8yjdOx."
+        - "traefik.http.routers.comfyui.middlewares=comfyui-auth"
 
 volumes:
-  comfyui_workspace:
+  comfyui_workspace_v2:
 
 networks:
   network_public:

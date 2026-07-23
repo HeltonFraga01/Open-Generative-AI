@@ -2,14 +2,13 @@ version: '3.8'
 
 services:
   comfyui:
-    image: ghcr.io/ai-dock/comfyui:cpu-22.04
+    image: heltonfraga/comfyui:latest
     environment:
-      - COMFYUI_FLAGS=--cpu
       - WEB_ENABLE_AUTH=false
     ports:
       - "8188:8188"
     volumes:
-      - comfyui_workspace:/workspace
+      - comfyui_workspace_v2:/workspace
 
 volumes:
-  comfyui_workspace:
+  comfyui_workspace_v2:
