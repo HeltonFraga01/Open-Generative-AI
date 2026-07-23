@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  open-generative-ai:
+    image: heltonfraga/open-generative-ai:latest
+    environment:
+      # ── Configurações de Produção (HARDCODED para resiliência no Swarm/Portainer) ──
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - network_public
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.open-generative-ai.entrypoints=websecure"
+        - "traefik.http.routers.open-generative-ai.rule=Host(`open-generative-ai.nexusmind.digital`) || Host(`generative.nexusmind.digital`)"
+        - "traefik.http.routers.open-generative-ai.priority=200"
+        - "traefik.http.routers.open-generative-ai.tls=true"
+        - "traefik.http.routers.open-generative-ai.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.open-generative-ai.loadbalancer.server.port=3000"
+
+networks:
+  network_public:
+    external: true
