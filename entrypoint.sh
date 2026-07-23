@@ -19,12 +19,19 @@ if [ -z "$(ls -A /workspace/models 2>/dev/null)" ]; then
     cp -r /app/ComfyUI/models_default/. /workspace/models/
 fi
 
+# Ensure correct permissions on the workspace (resilience for volume mounts)
+chown -R root:root /workspace || true
+chmod -R 777 /workspace || true
+
 # Create symlinks to the app directory
 rm -rf /app/ComfyUI/custom_nodes
 ln -s /workspace/custom_nodes /app/ComfyUI/custom_nodes
 
 rm -rf /app/ComfyUI/models
 ln -s /workspace/models /app/ComfyUI/models
+
+rm -rf /app/ComfyUI/user
+ln -s /workspace/user /app/ComfyUI/user
 
 # Run ComfyUI with multi-user + stable frontend (forcing CPU mode)
 exec python /app/ComfyUI/main.py \
@@ -35,5 +42,4 @@ exec python /app/ComfyUI/main.py \
     --front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4 \
     --output-directory /workspace/output \
     --input-directory /workspace/input \
-    --user-directory /workspace/user \
     "$@"
