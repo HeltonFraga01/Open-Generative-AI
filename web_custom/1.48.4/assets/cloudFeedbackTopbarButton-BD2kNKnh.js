@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";import{n as e,wi as t}from"./settingStore-BwtakHdR.js";import{c as n}from"./i18n-B3BytSl_.js";import{t as r}from"./feedbackDialog-BbZn3UIX.js";var i=[{icon:`icon-[lucide--message-square-text]`,label:n(`actionbar.feedback`),tooltip:n(`actionbar.feedbackTooltip`),onClick:()=>r(`action-bar`)}];t().registerExtension({name:`Comfy.FeedbackButton`,get actionBarButtons(){return e().get(`Comfy.UI.TabBarLayout`)===`Legacy`?i:[]}});
+//# sourceMappingURL=cloudFeedbackTopbarButton-BD2kNKnh.js.map

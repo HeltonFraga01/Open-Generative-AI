@@ -38,14 +38,11 @@ RUN pip install --no-cache-dir bcrypt
 # Copy auth files
 COPY auth/ /app/ComfyUI/auth/
 
+# Copy pre-bundled frontend v1.48.4
+COPY web_custom/1.48.4 /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4
+
 # Patch server.py to inject auth middleware (no cache to force re-patch)
 RUN python /app/ComfyUI/auth/patch_server.py && cat /app/ComfyUI/server.py | grep -A2 "AUTH ROUTES"
-
-# Pre-install frontend v1.48.4 to avoid GitHub API rate limits at runtime
-RUN mkdir -p /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 && \
-    curl -L -s https://github.com/Comfy-Org/ComfyUI_frontend/releases/download/v1.48.4/dist.zip -o /tmp/dist.zip && \
-    unzip -q /tmp/dist.zip -d /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 && \
-    rm /tmp/dist.zip
 
 # Backup default structures before symlinking
 RUN cp -r /app/ComfyUI/custom_nodes /app/ComfyUI/custom_nodes_default && \

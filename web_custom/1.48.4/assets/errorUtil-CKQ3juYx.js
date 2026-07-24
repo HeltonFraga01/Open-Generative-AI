@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";function toError(e){if(e instanceof Error)return e;if(typeof e==`string`)return Error(e);if(e===void 0)return Error(`undefined`);try{let t=JSON.stringify(e);return Error(t??String(e))}catch{return Error(String(e))}}function getErrorMessage(e){if(e instanceof Error)return e.message;if(typeof e==`string`)return e;if(typeof e==`object`&&e&&`message`in e&&typeof e.message==`string`)return e.message}export{toError as n,getErrorMessage as t};
+//# sourceMappingURL=errorUtil-CKQ3juYx.js.map

@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";import{it as e}from"./vendor-primevue-BYDunDLy.js";import{j as t}from"./vendor-vue-core-BwOUaGko.js";var n=1700;function useModalLiftedZIndex(r){return t(()=>{if(!r.value)return;let t=e.getCurrent(`modal`);return t>=n?{zIndex:t+1}:void 0})}export{useModalLiftedZIndex as t};
+//# sourceMappingURL=useModalLiftedZIndex-cljV8bPh.js.map

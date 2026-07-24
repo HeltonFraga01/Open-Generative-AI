@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";import{H as e,N as t,it as n}from"./vendor-vue-core-BwOUaGko.js";import{t as r}from"./Load3D-DikZ1MW-.js";var i=e({__name:`Load3DAdvanced`,props:{widget:{},nodeId:{}},setup(e){return(i,a)=>(n(),t(r,{widget:e.widget,"node-id":e.nodeId,"can-use-recording":!1,"can-use-hdri":!1,"can-use-background-image":!1},null,8,[`widget`,`node-id`]))}});export{i as t};
+//# sourceMappingURL=Load3DAdvanced-kGPeojSo.js.map

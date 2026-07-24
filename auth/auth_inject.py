@@ -83,7 +83,15 @@ async def auth_middleware(request, handler):
     session_token = request.cookies.get("comfy_session", "")
     if session_token and session_token in _valid_sessions:
         if _valid_sessions[session_token] == AUTH_USER:
-            return await handler(request)
+            try:
+                resp = await handler(request)
+                if resp.status == 404 and path.startswith("/api/userdata"):
+                    return web.json_response([], headers={"Cache-Control": "no-cache"})
+                return resp
+            except Exception:
+                if path.startswith("/api/userdata"):
+                    return web.json_response([], headers={"Cache-Control": "no-cache"})
+                raise
 
     # API and static asset requests get 401 JSON with no-cache headers to prevent CDN/Cloudflare caching
     if path not in ("/", "/index.html"):

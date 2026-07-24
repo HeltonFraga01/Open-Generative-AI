@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";var e=null;function useTelemetry(){return e}function setTelemetryRegistry(t){e=t}export{useTelemetry as n,setTelemetryRegistry as t};
+//# sourceMappingURL=telemetry-6FPWIuHu.js.map

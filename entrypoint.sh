@@ -55,6 +55,11 @@ ln -s /workspace/models /app/ComfyUI/models
 rm -rf /app/ComfyUI/user
 ln -s /workspace/user /app/ComfyUI/user
 
+mkdir -p /workspace/user/default /workspace/user/workflows /workspace/user/subgraphs
+if [ ! -f /workspace/user/comfy.templates.json ]; then
+    echo "[]" > /workspace/user/comfy.templates.json
+fi
+
 rm -rf /root/.cache/comfyui /workspace/web 2>/dev/null || true
 
 # Run ComfyUI with server optimization flags (no --multi-user — single user only)

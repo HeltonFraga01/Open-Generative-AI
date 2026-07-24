@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";import{Mt as e,zt as t}from"./vendor-vue-core-BwOUaGko.js";import{o as n}from"./vendor-vueuse-BFNgGbqD.js";function useTextFileContent(r){let i=e(!1),a=e(!1);return{textContent:n(async()=>{a.value=!1;let{content:e,url:n}=t(r)??{};if(e!==void 0)return e;if(!n)return``;let i=await fetch(n);return i.ok?await i.text():(a.value=!0,``)},``,{evaluating:i,onError:()=>{a.value=!0}}),isLoading:i,hasError:a}}export{useTextFileContent as t};
+//# sourceMappingURL=useTextFileContent-D_xygFVU.js.map

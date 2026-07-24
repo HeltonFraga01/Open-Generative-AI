@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";import{it as e}from"./vendor-primevue-BYDunDLy.js";var t={mounted(t){e.set(`modal`,t,1700)},beforeUnmount(t){e.clear(t)}};export{t};
+//# sourceMappingURL=vRekaZIndex-DAW2EzD7.js.map

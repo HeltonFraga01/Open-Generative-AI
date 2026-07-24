@@ -1,0 +1,2 @@
+import"./rolldown-runtime-G-74P12b.js";function electronAPI(){return window.electronAPI}function showNativeSystemMenu(){electronAPI()?.showContextMenu()}function isNativeWindow(){return!1}export{isNativeWindow as n,showNativeSystemMenu as r,electronAPI as t};
+//# sourceMappingURL=envUtil-DIUq-Lb4.js.map

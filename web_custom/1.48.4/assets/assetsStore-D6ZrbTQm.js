@@ -1,0 +1,1 @@
+import{zr as e}from"./settingStore-BwtakHdR.js";export{e as useAssetsStore};
