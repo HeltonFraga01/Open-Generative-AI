@@ -9,9 +9,16 @@ mkdir -p /workspace/input
 mkdir -p /workspace/user/default
 mkdir -p /workspace/temp
 
-if [ ! -f /workspace/user/default/comfy.settings.json ]; then
-    echo '{"Comfy.InstalledVersion": "1.48.4", "Comfy.TutorialCompleted": true, "Comfy.VueNodes.Enabled": true}' > /workspace/user/default/comfy.settings.json
-fi
+mkdir -p /workspace/user/default
+cat << 'EOF' > /workspace/user/default/comfy.settings.json
+{
+    "Comfy.InstalledVersion": "1.48.4",
+    "Comfy.TutorialCompleted": true,
+    "Comfy.VueNodes.Enabled": true,
+    "Comfy.UseNewMenu": "Top",
+    "Comfy.MenuPosition.Docked": "true"
+}
+EOF
 
 # Copy defaults if empty
 if [ -z "$(ls -A /workspace/custom_nodes 2>/dev/null)" ]; then
