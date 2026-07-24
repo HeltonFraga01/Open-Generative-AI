@@ -2,13 +2,20 @@ version: '3.8'
 
 services:
   comfyui:
-    image: heltonfraga/comfyui:latest
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      - WEB_ENABLE_AUTH=false
+      - COMFYUI_AUTH_ENABLED=true
+      - COMFYUI_DEFAULT_USER=nexusmind
+      # Hash bcrypt para a senha 'NexusGenerative2026!'
+      - "COMFYUI_DEFAULT_PASS_HASH=$$2b$$12$$QRgFSxlS67QPl4CbQXoakOP24Fia7pnUBqlrZYvQzNHQ5nQf7BlDW"
+      - COMFYUI_API_TOKEN=zvztFnf9gNUkURYu7hYkKJlS5nFqpseSbo-jJ2q9chs
     ports:
       - "8188:8188"
     volumes:
-      - comfyui_workspace_v2:/workspace
+      - comfyui_workspace_local:/workspace
 
 volumes:
-  comfyui_workspace_v2:
+  comfyui_workspace_local:
