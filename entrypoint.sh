@@ -16,7 +16,7 @@ cat << 'EOF' > /workspace/user/default/comfy.settings.json
     "Comfy.TutorialCompleted": true,
     "Comfy.VueNodes.Enabled": true,
     "Comfy.UseNewMenu": "Top",
-    "Comfy.MenuPosition.Docked": "true"
+    "Comfy.MenuPosition.Docked": true
 }
 EOF
 

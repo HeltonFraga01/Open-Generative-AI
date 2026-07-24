@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   comfyui:
-    image: heltonfraga/comfyui:v0.28.0-v12
+    image: heltonfraga/comfyui:v0.28.0-v13
     # ── chaves (HARDCODED diretamente na Spec YAML para resiliência no Portainer) ──
     # ATENÇÃO: NÃO extraia estas chaves para variáveis de ambiente na interface do Portainer (Stack Env).
     # Caso contrário, re-deploys de imagem apagarão as variáveis e quebrarão a criptografia/autenticação.
