@@ -32,6 +32,9 @@ RUN git clone --branch 4.2.2 --depth 1 https://github.com/Comfy-Org/ComfyUI-Mana
 WORKDIR /app/ComfyUI
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pin transformers and huggingface_hub to prevent KeyError: 'default' on Qwen3-VL/CLIP loaders
+RUN pip install --no-cache-dir transformers==4.57.3 "huggingface_hub>=0.34.0,<1.0"
+
 # Install bcrypt for auth
 RUN pip install --no-cache-dir bcrypt
 
