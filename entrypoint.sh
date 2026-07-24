@@ -45,7 +45,8 @@ rm -rf /app/ComfyUI/user
 ln -s /workspace/user /app/ComfyUI/user
 # Clear old frontend cache to force re-download of the pinned version
 # (pitfall #50 — old volumes keep stale frontend despite --front-end-version bump)
-rm -rf /root/.cache/comfyui /app/ComfyUI/web_custom_versions /workspace/web 2>/dev/null || true
+# Note: we do NOT delete /app/ComfyUI/web_custom_versions because it contains our pre-baked v1.48.4 to avoid GitHub API rate limits
+rm -rf /root/.cache/comfyui /workspace/web 2>/dev/null || true
 
 # Run ComfyUI with server optimization flags (no --multi-user — single user only)
 # NOTE: --front-end-version v1.48.5 requires ComfyUI master (not v0.28.0).

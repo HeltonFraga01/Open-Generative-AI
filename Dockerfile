@@ -6,12 +6,18 @@ RUN apt-get -o Acquire::AllowInsecureRepositories=true \
     update && apt-get install -y --no-install-recommends \
     git \
     curl \
+    unzip \
     ffmpeg \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PyTorch CPU (pinned — latest 2.13.x is too large for buildx QEMU)
-RUN pip install --no-cache-dir torch==2.5.1+cpu torchvision==0.20.1+cpu torchaudio==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu
+# Install PyTorch CPU (conditional by architecture to support multi-platform buildx)
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        pip install --no-cache-dir torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1; \
+    else \
+        pip install --no-cache-dir torch==2.5.1+cpu torchvision==0.20.1+cpu torchaudio==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu; \
+    fi
 
 # Clone ComfyUI — master branch (required for frontend v1.48.5 compatibility)
 RUN git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git /app/ComfyUI
@@ -34,6 +40,12 @@ COPY auth/ /app/ComfyUI/auth/
 
 # Patch server.py to inject auth middleware (no cache to force re-patch)
 RUN python /app/ComfyUI/auth/patch_server.py && cat /app/ComfyUI/server.py | grep -A2 "AUTH ROUTES"
+
+# Pre-install frontend v1.48.4 to avoid GitHub API rate limits at runtime
+RUN mkdir -p /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 && \
+    curl -L -s https://github.com/Comfy-Org/ComfyUI_frontend/releases/download/v1.48.4/dist.zip -o /tmp/dist.zip && \
+    unzip -q /tmp/dist.zip -d /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 && \
+    rm /tmp/dist.zip
 
 # Backup default structures before symlinking
 RUN cp -r /app/ComfyUI/custom_nodes /app/ComfyUI/custom_nodes_default && \
