@@ -1,8 +1,11 @@
 # ComfyUI — Deploy Docker Swarm com Auth Nativa
 
+> [!IMPORTANT]
+> **LEITURA OBRIGATÓRIA PARA AGENTES DE IA E DESENVOLVEDORES:** Antes de realizar qualquer modificação ou atualização de pacotes neste repositório, leia atentamente as regras críticas listadas em [COMFYUI_RULES.md](file:///Users/heltonfraga/Documents/Develop/Open-Generative-AI/COMFYUI_RULES.md) para evitar regressão de layout e erros de compilação.
+
 > Documentação técnica completa para manutenção e operação.
-> Última atualização: 2026-07-23
-> Status: **Funcionando em produção** (verificado com HTTP 200 + login + Bearer token)
+> Última atualização: 2026-07-24
+> Status: **Funcionando localmente e em produção** (verificado com HTTP 200 + login + Bearer token)
 
 ---
 
