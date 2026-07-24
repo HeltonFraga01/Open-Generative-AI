@@ -67,8 +67,9 @@ async def auth_middleware(request, handler):
     path = request.path
 
     # Allow login API and login page
-    if path in ("/api/auth/login", "/api/auth/check", "/api/auth/logout") or path.startswith("/auth/"):
+    if path in ("/api/auth/login", "/api/auth/check", "/api/auth/logout") or path.startswith(("/auth/", "/assets/", "/fonts/")) or path in ("/favicon.ico", "/user.css", "/materialdesignicons.min.css") or path.endswith((".js", ".css", ".woff2", ".png", ".jpg", ".ico", ".svg")):
         return await handler(request)
+
 
     # Check API token (Authorization: Bearer <token>) — for MCP/programmatic access
     if AUTH_API_TOKEN:

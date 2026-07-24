@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   comfyui:
-    image: heltonfraga/comfyui:v0.28.0-v9
+    image: heltonfraga/comfyui:v0.28.0-v10
     # ── chaves (HARDCODED diretamente na Spec YAML para resiliência no Portainer) ──
     # ATENÇÃO: NÃO extraia estas chaves para variáveis de ambiente na interface do Portainer (Stack Env).
     # Caso contrário, re-deploys de imagem apagarão as variáveis e quebrarão a criptografia/autenticação.
@@ -26,12 +26,13 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=network_public"
-        - "traefik.http.routers.comfyui.entrypoints=websecure"
-        - "traefik.http.routers.comfyui.rule=Host(`comfyui.nexusmind.digital`)"
-        - "traefik.http.routers.comfyui.priority=200"
-        - "traefik.http.routers.comfyui.tls=true"
-        - "traefik.http.routers.comfyui.tls.certresolver=letsencryptresolver"
-        - "traefik.http.services.comfyui.loadbalancer.server.port=8188"
+        - "traefik.http.routers.cortexx-comfyui.entrypoints=websecure"
+        - "traefik.http.routers.cortexx-comfyui.rule=Host(`comfyui.nexusmind.digital`)"
+        - "traefik.http.routers.cortexx-comfyui.service=cortexx-comfyui"
+        - "traefik.http.routers.cortexx-comfyui.priority=200"
+        - "traefik.http.routers.cortexx-comfyui.tls=true"
+        - "traefik.http.routers.cortexx-comfyui.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.cortexx-comfyui.loadbalancer.server.port=8188"
 
 volumes:
   comfyui_workspace_v5:
