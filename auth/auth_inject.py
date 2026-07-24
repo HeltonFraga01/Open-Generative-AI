@@ -84,14 +84,20 @@ async def auth_middleware(request, handler):
         if _valid_sessions[session_token] == AUTH_USER:
             return await handler(request)
 
-    # API requests get 401 JSON
-    api_prefixes = ("/api/", "/prompt", "/queue", "/history", "/system_stats",
-                    "/object_info", "/upload", "/view", "/free", "/internal", "/ws")
-    if any(path.startswith(p) for p in api_prefixes):
-        return web.json_response({"error": "Unauthorized"}, status=401)
+    # API and static asset requests get 401 JSON with no-cache headers to prevent CDN/Cloudflare caching
+    if path not in ("/", "/index.html"):
+        return web.json_response(
+            {"error": "Unauthorized"},
+            status=401,
+            headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+        )
 
-    # Browser requests get the login page
-    return web.Response(text=LOGIN_HTML, content_type="text/html")
+    # Browser root requests get the login page with no-cache headers
+    return web.Response(
+        text=LOGIN_HTML,
+        content_type="text/html",
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    )
 
 
 async def handle_auth_login(request):

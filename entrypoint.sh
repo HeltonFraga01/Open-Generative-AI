@@ -6,8 +6,12 @@ mkdir -p /workspace/custom_nodes
 mkdir -p /workspace/models
 mkdir -p /workspace/output
 mkdir -p /workspace/input
-mkdir -p /workspace/user
+mkdir -p /workspace/user/default
 mkdir -p /workspace/temp
+
+if [ ! -f /workspace/user/default/comfy.settings.json ]; then
+    echo '{"Comfy.InstalledVersion": "1.48.4", "Comfy.TutorialCompleted": true, "Comfy.VueNodes.Enabled": true}' > /workspace/user/default/comfy.settings.json
+fi
 
 # Copy defaults if empty
 if [ -z "$(ls -A /workspace/custom_nodes 2>/dev/null)" ]; then
@@ -43,15 +47,10 @@ ln -s /workspace/models /app/ComfyUI/models
 
 rm -rf /app/ComfyUI/user
 ln -s /workspace/user /app/ComfyUI/user
-# Clear old frontend cache to force re-download of the pinned version
-# (pitfall #50 — old volumes keep stale frontend despite --front-end-version bump)
-# Note: we do NOT delete /app/ComfyUI/web_custom_versions because it contains our pre-baked v1.48.4 to avoid GitHub API rate limits
+
 rm -rf /root/.cache/comfyui /workspace/web 2>/dev/null || true
 
 # Run ComfyUI with server optimization flags (no --multi-user — single user only)
-# NOTE: --front-end-version v1.48.5 requires ComfyUI master (not v0.28.0).
-# v0.28.0 + embedded v1.45.21 has a "graph accessed before initialization" bug
-# that prevents the Vue topbar/sidebar from rendering.
 exec python /app/ComfyUI/main.py \
     --listen 0.0.0.0 \
     --port 8188 \
@@ -60,7 +59,7 @@ exec python /app/ComfyUI/main.py \
     --enable-cors-header \
     --enable-compress-response-body \
     --max-upload-size 100 \
-    --front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4 \
+    --front-end-root /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 \
     --output-directory /workspace/output \
     --input-directory /workspace/input \
     --user-directory /workspace/user \
