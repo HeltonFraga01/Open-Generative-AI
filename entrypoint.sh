@@ -59,6 +59,7 @@ exec python /app/ComfyUI/main.py \
     --enable-cors-header \
     --enable-compress-response-body \
     --max-upload-size 100 \
+    --front-end-version Comfy-Org/ComfyUI_frontend@latest \
     --output-directory /workspace/output \
     --input-directory /workspace/input \
     --user-directory /workspace/user \
