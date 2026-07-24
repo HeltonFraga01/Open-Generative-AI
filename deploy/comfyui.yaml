@@ -2,11 +2,18 @@ version: '3.8'
 
 services:
   comfyui:
-    image: heltonfraga/comfyui:latest
+    image: heltonfraga/comfyui:v0.28.0-v5
+    # ── chaves (HARDCODED diretamente na Spec YAML para resiliência no Portainer) ──
+    # ATENÇÃO: NÃO extraia estas chaves para variáveis de ambiente na interface do Portainer (Stack Env).
+    # Caso contrário, re-deploys de imagem apagarão as variáveis e quebrarão a criptografia/autenticação.
     environment:
-      - WEB_ENABLE_AUTH=false
+      - COMFYUI_AUTH_ENABLED=true
+      - COMFYUI_DEFAULT_USER=nexusmind
+      # Hash bcrypt para a senha 'NexusGenerative2026!'
+      - "COMFYUI_DEFAULT_PASS_HASH=$$2b$$12$$QRgFSxlS67QPl4CbQXoakOP24Fia7pnUBqlrZYvQzNHQ5nQf7BlDW"
+      - COMFYUI_API_TOKEN=zvztFnf9gNUkURYu7hYkKJlS5nFqpseSbo-jJ2q9chs
     volumes:
-      - comfyui_workspace_v2:/workspace
+      - comfyui_workspace_v5:/workspace
     networks:
       - network_public
     deploy:
@@ -25,13 +32,9 @@ services:
         - "traefik.http.routers.comfyui.tls=true"
         - "traefik.http.routers.comfyui.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.comfyui.loadbalancer.server.port=8188"
-        # ── Autenticação Básica (HARDCODED diretamente para resiliência no Portainer) ──
-        # A senha gerada abaixo para 'nexusmind' é 'NexusGenerative2026!'
-        - "traefik.http.middlewares.comfyui-auth.basicauth.users=nexusmind:$$apr1$$z5AMyJ1b$$XPkqxwBmT2foH8w8yjdOx."
-        - "traefik.http.routers.comfyui.middlewares=comfyui-auth"
 
 volumes:
-  comfyui_workspace_v2:
+  comfyui_workspace_v5:
 
 networks:
   network_public:

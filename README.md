@@ -1,587 +1,401 @@
-# Open Generative AI — Unrestricted Open-Source Alternative to AI Video Platforms
+# ComfyUI — Deploy Docker Swarm com Auth Nativa
 
-[![Powered by MuAPI](https://img.shields.io/badge/Powered%20by-MuAPI-6366f1?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMSAxNHYtNGgtMnYtMmg0djZoLTJ6bTAtOFY2aDJ2MmgtMnoiLz48L3N2Zz4=)](https://muapi.ai?utm_source=github&utm_medium=badge&utm_campaign=open-generative-ai)
-
-
-> **The free, open-source alternative to AI Video Platforms.** Generate AI images and videos using 200+ state-of-the-art models — no content filters, no closed ecosystem, no subscription fees.
-
-**Community:** Join [Discord](https://discord.gg/tANKJkHck) for discussions and support
-
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=SC9zJ6AxDek">
-    <img src="docs/assets/video-20-thumbnail.png" alt="AI Creator Academy: The Free Course Paid Communities Don't Want You to Find" width="640">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=SC9zJ6AxDek"><b>📺 AI Creator Academy: The Free Course Paid Communities Don't Want You to Find →</b></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Anil-matcha/awesome-generative-ai-apps">
-    <img src="https://img.shields.io/badge/Part%20of-Awesome%20Generative%20AI%20Apps-FFD700?style=for-the-badge&logo=github&logoColor=black" alt="Awesome Generative AI Apps">
-  </a>
-</p>
-
-> 🎨 **[Explore 50+ more open-source AI apps →](https://github.com/Anil-matcha/awesome-generative-ai-apps)**
-
-## Related Projects
-
-> 🎓 **Learn to monetize generative AI:** [ai-creator-academy](https://github.com/Anil-matcha/ai-creator-academy) — a free, open-source curriculum teaching creators, freelancers, and agencies how to make money with generative AI image/video/audio tools, covering monetization, pricing, and client delivery — not just how the models work.
-
-> 🤖 **Automate media generations with AI coding agents:** [Generative-Media-Skills](https://github.com/SamurAIGPT/Generative-Media-Skills) — a library of skills that let agents like **Claude Code**, **Codex**, and other coding assistants drive 200+ image/video models end-to-end (prompt → generate → edit → stitch) directly from your terminal. Perfect for building automated media pipelines without touching a UI.
-
-> 🎬 **Seedance 2.5 prompts & API guide:** [awesome-seedance-2.5-api-prompts](https://github.com/Anil-matcha/awesome-seedance-2.5-api-prompts) — Curated prompt templates, camera control vocabulary, MuAPI reference, and cinematic examples for Seedance 2.5 video generation.
-
-> 🎥 **Seedance 2.5 Python SDK:** [Seedance-2.5-API](https://github.com/SamurAIGPT/Seedance-2.5-API) — Python wrapper for ByteDance's Seedance 2.5 API — text-to-video, image-to-video, realistic human faces, character consistency.
-
-> 🍌 **Claude Fable 5 use cases + 20% off on MuAPI:** [awesome-claude-fable-5](https://github.com/Anil-matcha/awesome-claude-fable-5) — 60 curated real-world use cases, prompts, and benchmarks for Claude Fable 5, with **20% off Fable 5 access** via [MuAPI](https://muapi.ai/pricing?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai).
-
-- [Vadoo](https://vadoo.tv) — Unrestricted AI image & video generation → auto-publish as YouTube Shorts and TikToks & earn
-- [AI-Youtube-Shorts-Generator](https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator) — Auto-generate viral YouTube Shorts from long-form videos using AI
-- [muapi-cli](https://github.com/SamurAIGPT/muapi-cli) — Official CLI for MuAPI — run these models from your terminal
-- [Vibe-Workflow](https://github.com/SamurAIGPT/Vibe-Workflow) — Node-based AI workflow builder for generative image & video pipelines
-- [Text-To-Video-AI](https://github.com/SamurAIGPT/Text-To-Video-AI) — Lightweight text-to-video script — no UI required
-- [muapi-comfyui](https://github.com/SamurAIGPT/muapi-comfyui) — ComfyUI nodes for 100+ MuAPI models
-- [n8n-nodes-muapi](https://github.com/SamurAIGPT/n8n-nodes-muapi) — n8n community nodes for MuAPI — automate media generation
-- [Open-AI-Design-Agent](https://github.com/Anil-matcha/Open-AI-Design-Agent) — Open-source autonomous AI design agent
-- [Free-AI-Social-Media-Scheduler](https://github.com/Anil-matcha/Free-AI-Social-Media-Scheduler) — Free open-source AI social media scheduler — self-hostable alternative to Buffer and Hootsuite
-- [awesome-seedance-2.5-api-prompts](https://github.com/Anil-matcha/awesome-seedance-2.5-api-prompts) — Curated Seedance 2.5 API guide, prompts, camera controls, and video generation examples
-- [AI-Voice-Agent](https://github.com/Anil-matcha/AI-Voice-Agent) — Self-hosted AI voice agent for real-time voice conversations, sales calls, and customer support
-- [awesome-ai-video-models](https://github.com/Anil-matcha/awesome-ai-video-models) — compare AI video models by API, price & speed
-- [awesome-ai-image-models](https://github.com/Anil-matcha/awesome-ai-image-models) — compare AI image models by API, price & quality
-
-## 🌐 Try it Online — No Install Required
-
-**Hosted version:** [https://muapi.ai/open-generative-ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai](https://muapi.ai/open-generative-ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai)
-
-Use all studios (Image, Video, Audio, AI Clipping, Vibe Motion, Lip Sync, Cinema, Marketing, Workflows, Agents, Design Agent, Apps, MCP & CLI) directly in your browser — no Node.js, no setup. Sign up for a free account to start generating. The hosted version is always up to date with the latest models.
-
-**Follow** the [creator](https://x.com/matchaman11) for updates
+> Documentação técnica completa para manutenção e operação.
+> Última atualização: 2026-07-23
+> Status: **Funcionando em produção** (verificado com HTTP 200 + login + Bearer token)
 
 ---
 
-## ⬇️ Download Desktop App
+## 📋 Visão Geral
 
-One-click installers — no Node.js or terminal required.
+ComfyUI rodando como **orquestrador visual de workflows** que chamam APIs externas (Gemini, OmniRoute, Fal, etc.) via custom nodes. **Sem inferência local** — roda em modo `--cpu`. Auth nativa com usuário/senha via middleware injetado no build (sem Cloudflare/Traefik basicauth).
 
-| Platform | Download |
-|---|---|
-| macOS Apple Silicon (M1/M2/M3/M4) | [Open Generative AI-1.0.9-arm64.dmg](https://github.com/Anil-matcha/Open-Generative-AI/releases/download/v1.0.9/Open.Generative.AI-1.0.9-arm64.dmg) |
-| macOS Intel (x64) | [Open Generative AI-1.0.9.dmg](https://github.com/Anil-matcha/Open-Generative-AI/releases/download/v1.0.9/Open.Generative.AI-1.0.9.dmg) |
-| Windows (x64) | [Open Generative AI Setup 1.0.9.exe](https://github.com/Anil-matcha/Open-Generative-AI/releases/download/v1.0.9/Open.Generative.AI.Setup.1.0.9.exe) |
-| Linux (Ubuntu x64) | [v1.0.9 release](https://github.com/Anil-matcha/Open-Generative-AI/releases/tag/v1.0.9) (`.AppImage` / `.deb`), or build locally with `npm run electron:build:linux`. |
-
-All releases: [github.com/Anil-matcha/Open-Generative-AI/releases](https://github.com/Anil-matcha/Open-Generative-AI/releases)
-
-### macOS Installation Guide
-
-Because the app is not notarized by Apple, macOS Gatekeeper will block it on first launch. Follow these steps:
-
-**Step 1** — Mount the DMG and drag the app to `/Applications`
-
-**Step 2** — Open Terminal and run:
-```bash
-xattr -cr "/Applications/Open Generative AI.app"
-```
-
-**Step 3** — Right-click the app in `/Applications` → click **Open** → click **Open** again on the dialog
-
-> You only need to do this once. After that, the app opens normally.
-
-**Alternative (no Terminal):**
-1. Try to open the app — macOS will block it
-2. Go to **System Settings → Privacy & Security**
-3. Scroll down to find _"Open Generative AI was blocked"_
-4. Click **Open Anyway** → **Open**
-
-### Windows Installation — SmartScreen warning fix
-
-Windows SmartScreen may show a warning because the installer is not code-signed:
-
-1. Click **More info** on the SmartScreen dialog
-2. Click **Run anyway**
-
-The app will install silently to `%LocalAppData%` with a Start Menu shortcut.
-
-### Ubuntu / Linux Installation
-
-Linux artifacts are available when building with Electron Builder:
-
-```bash
-# Build Linux installers (AppImage + .deb)
-npm run electron:build:linux
-```
-
-Generated files are written to the `release/` folder:
-- **AppImage** — portable, run directly after making executable:
-  ```bash
-  chmod +x "release/Open Generative AI-*.AppImage"
-  ./release/Open\ Generative\ AI-*.AppImage
-  ```
-- **.deb** — install on Debian/Ubuntu:
-  ```bash
-  sudo apt install ./release/open-generative-ai_*_amd64.deb
-  ```
-
-If AppImage fails to start on older systems, install `libfuse2`:
-
-```bash
-sudo apt install libfuse2
-```
-
-#### Ubuntu 24.04+ / AppArmor sandbox restriction
-
-Ubuntu 24.04 and later enable a kernel security policy (`apparmor_restrict_unprivileged_userns`) that blocks Chromium's user-namespace sandbox. If the app fails to start silently or crashes immediately, you have two options:
-
-**Option A — Recommended: install the `.deb` instead.**
-The `.deb` package ships an AppArmor profile that grants the required permission automatically on install with no system-wide changes.
-
-**Option B — Temporary system fix (AppImage users):**
-```bash
-sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-```
-This lasts until next reboot. To make it permanent:
-```bash
-echo 'kernel.apparmor_restrict_unprivileged_userns=0' | sudo tee /etc/sysctl.d/99-userns.conf
-```
-
----
-
-Open Generative AI is a free, open-source AI image, video, cinema, and lip sync studio that brings creative workflows to everyone. No content filters, no prompt rejections, no guardrails — just full creative freedom. Powered by [Muapi.ai](https://muapi.ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai), it supports text-to-image, image-to-image, text-to-video, image-to-video, and audio-driven lip sync generation across models like Flux, Nano Banana, Midjourney, Kling, Sora, Veo, Seedream, Infinite Talk, LTX Lipsync, Wan 2.2, and more — all from a sleek, modern interface you can self-host and customize.
-
-**Why Open Generative AI instead of other AI Video Platforms?**
-- **No filters** — no content filters, no nanny guardrails, no prompt rejections
-- **Free & open-source** — no subscription, no vendor lock-in
-- **Self-hosted** — your data stays on your machine, full creative control
-- **200+ models** — text-to-image, image-to-image, text-to-video, image-to-video, lip sync
-- **Multi-image input** — feed up to 14 reference images into compatible models
-- **Lip Sync Studio** — animate portraits or sync lips to any audio with 9 dedicated models
-- **Extensible** — add your own models, modify the UI, build on top of it
-
-For a deep dive into the technical architecture and the philosophy behind the "Infinite Budget" cinema workflow, see our [comprehensive guide and roadmap](https://medium.com/@anilmatcha/).
-
-## ⚡ Local Model Inference (Desktop App Only)
-
-The desktop app supports **two independent local engines**. Pick whichever fits the machine you actually run on:
-
-| Engine | What it is | Best for |
+| Componente | Versão | Repo |
 |---|---|---|
-| **sd.cpp** (bundled) | C++ engine from [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp), runs on the same machine as the app. Metal GPU on Apple Silicon, CUDA/Vulkan/ROCm on Linux/Windows. | Image-only models. Works on Mac M-series. |
-| **Wan2GP** (BYO server) | HTTP client to a user-run [Wan2GP](https://github.com/deepbeepmeep/Wan2GP) server. The server runs Python + PyTorch on a CUDA/ROCm GPU; the desktop app only sends prompts and receives results. | Video models (Wan 2.2, Hunyuan, LTX) and large image models (Flux, Qwen-Image). NVIDIA/AMD GPU required on the *server*; the desktop app itself can run on a Mac. |
+| ComfyUI (core) | `v0.28.0` | `comfyanonymous/ComfyUI` |
+| ComfyUI-Manager | `4.2.2` | `Comfy-Org/ComfyUI-Manager` |
+| ComfyUI Frontend | `v1.48.4` | `Comfy-Org/ComfyUI_frontend` |
+| PyTorch | `2.5.1+cpu` | — |
+| Python | `3.11-slim` | `public.ecr.aws/docker/library/python` |
+| Imagem Docker | `heltonfraga/comfyui:v0.28.0-v5` | Docker Hub |
+| Stack Portainer | ID `452` (`cortexx-comfyui`) | — |
 
-Both engines share the same UI: open **Settings → Local Models** to configure each.
+### Custom Nodes (instalados no build)
 
-### Engine 1 — sd.cpp (bundled)
+| Node | Repo | Função |
+|---|---|---|
+| ComfyUI-AI-CustomURL | `bowtiedbluefin/ComfyUI-AI-CustomURL` | Texto, **imagem**, **vídeo**, **speech** — qualquer endpoint OpenAI-compatible com custom URL |
+| comfyui-openai-llm | `godmt/comfyui-openai-llm` | MCP tools, image input, leve |
+| ComfyUI-YALLM-node | `asaddi/ComfyUI-YALLM-node` | Multi-modal, OpenAI-like APIs local/remoto |
 
-| Model | Type | Size | Notes |
+### Backend de Inferência (gateways conectáveis)
+
+| Gateway | URL base | Models | Capabilities |
 |---|---|---|---|
-| **Z-Image Turbo** ⚡ | Diffusion Transformer | 2.5 GB + 2.7 GB aux | 8-step turbo. Heavy on memory. |
-| **Z-Image Base** ⚡ | Diffusion Transformer | 3.5 GB + 2.7 GB aux | 50-step high-quality. Heavy on memory. |
-| **Dreamshaper 8** | SD 1.5 | 2.1 GB | 20-step versatile. Lightest tested option on Mac. |
-| **Realistic Vision v5.1** | SD 1.5 | 2.1 GB | 25-step photorealistic |
-| **Anything v5** | SD 1.5 | 2.1 GB | 20-step anime/illustration |
-| **SDXL Base 1.0** | SDXL | 6.9 GB | 30-step high-res |
-
-> **Z-Image models** require two shared auxiliary files (downloaded once, shared across both models):
-> - **Qwen3-4B Text Encoder** — 2.4 GB
-> - **FLUX VAE** — 335 MB
-
-**How to use:**
-1. Open **Settings → Local Models** in the desktop app
-2. Install the **sd.cpp inference engine** (one click — auto-downloaded)
-3. Download your chosen model (and auxiliary files for Z-Image)
-4. In **Image Studio**, click the **⚡ Local** toggle next to the model selector
-5. Select your local model and generate — no API key needed
-
-All downloads happen inside the app. Nothing is installed system-wide.
-
-By default, `sd.cpp` stores the engine, model weights, and temporary downloads under Electron's app data directory. Common paths are:
-
-- macOS: `~/Library/Application Support/open-generative-ai/local-ai`
-- Windows: `%APPDATA%\open-generative-ai\local-ai`
-- Linux: `~/.config/open-generative-ai/local-ai`
-
-To keep multi-GB model weights on another drive, set `OPEN_GENERATIVE_AI_LOCAL_AI_DIR`
-before launching the desktop app. The app will create `bin/`, `models/`, and `tmp/`
-inside that directory, and **Settings -> Local Models** shows the resolved model folder.
-Local engine output and download errors are written to the app process console, so launch
-from Terminal or PowerShell when you need troubleshooting logs.
-
-### Engine 2 — Wan2GP (remote Gradio server)
-
-The app does **not** bundle Python or model weights for Wan2GP. You run Wan2GP yourself on a machine with a CUDA or ROCm GPU and point the desktop app at its URL.
-
-```bash
-# On your GPU machine
-git clone https://github.com/deepbeepmeep/Wan2GP
-cd Wan2GP
-./install.sh                          # or install.bat on Windows
-python wgp.py --listen --server-name 0.0.0.0   # binds to all interfaces
-```
-
-Then in the desktop app: **Settings → Local Models → Wan2GP server**, paste the URL (e.g. `http://192.168.1.42:7860`), click **Test**, then **Save**. The Wan2GP models become available — image models in **Image Studio**, video models reachable via the same generation API (Image Studio rejects video output explicitly; full Video Studio wiring is on the roadmap).
-
-| Model | Type | Notes |
-|---|---|---|
-| **Flux.1 Dev** | Image | 1024px, 28 steps |
-| **Qwen Image** | Image | 1024px, 30 steps |
-| **Wan 2.2 (T2V / I2V)** | Video | Slow on consumer GPUs |
-| **Hunyuan Video** | Video | High-quality T2V |
-| **LTX Video** | Video | Fastest video option |
-
-> **Why a separate server?** Wan2GP's runtime (Sage attention, flash-attn, AWQ/GGUF kernels) is CUDA-only — there is no MPS / Apple Silicon path. Treating it as a remote server lets a Mac-only user keep the desktop app while offloading inference to a Linux/Windows GPU box, a gaming PC on the LAN, or a rented RunPod/vast.ai instance.
-
-> **Local inference is only available in the desktop app.** The hosted web version always uses cloud APIs.
-
-### Hardware Notes
-
-- **sd.cpp** runs on CPU (all platforms) and **Metal GPU** on Apple Silicon (M1/M2/M3/M4); CUDA/Vulkan/ROCm on Linux/Windows.
-- Metal GPU acceleration is built into the macOS desktop binary — significantly faster than CPU-only.
-- Recommended for sd.cpp Z-Image: 16 GB RAM (7.4 GB weights + 2.4 GB compute buffer). On a base 8 GB M-series Mac, **Z-Image is known to hang the system** — stick to SD 1.5 there.
-- For SD 1.5 on M2: expect ~1–2 s/step with the Metal dylib active. If you see ~10 s/step instead, the binary may have fallen back to CPU — see verification below.
-
-### Verifying the SD 1.5 path (the fastest sanity test on Mac)
-
-If you want to confirm sd.cpp is installed correctly without going through the UI, you can drive `sd-cli` directly. This is the same binary the app uses.
-
-```bash
-# 1. App data layout (created on first app launch)
-APP_DATA="${OPEN_GENERATIVE_AI_LOCAL_AI_DIR:-$HOME/Library/Application Support/open-generative-ai/local-ai}"
-ls "$APP_DATA/bin"     # sd-cli, libstable-diffusion.dylib
-ls "$APP_DATA/models"  # whatever you've downloaded
-
-# 2. Grab a small SD 1.5 model directly (Dreamshaper 8, ~2 GB)
-curl -L --fail --progress-bar \
-  -o "$APP_DATA/models/DreamShaper_8_pruned.safetensors" \
-  "https://huggingface.co/Lykon/DreamShaper/resolve/main/DreamShaper_8_pruned.safetensors"
-
-# 3. Run a single 512x512 / 12-step inference
-DYLD_LIBRARY_PATH="$APP_DATA/bin" "$APP_DATA/bin/sd-cli" \
-  -m "$APP_DATA/models/DreamShaper_8_pruned.safetensors" \
-  -p "a serene mountain lake at sunrise, oil painting" \
-  -o /tmp/sd15-test.png \
-  --steps 12 -H 512 -W 512 --cfg-scale 7.5 --seed 42 \
-  --sampling-method euler_a
-```
-
-A healthy run on Apple Silicon prints `total params memory size = 1969.78MB (VRAM 1969.78MB, RAM 0.00MB)` (Metal-backed) and produces a coherent 512×512 PNG. If `VRAM` is `0.00MB` instead, the dylib is CPU-only — check `otool -L "$APP_DATA/bin/libstable-diffusion.dylib" | grep -i metal` and reinstall the engine from **Settings → Local Models** if Metal is missing.
+| **OmniRoute** | `https://omniroute.cortexx.online/v1` | 872 | chat (849), image (8), video (8: Veo free, Seedance), audio (5) |
+| **NexusMind** | `https://api.nexusmind.digital/v1` | 17 | chat (Grok 4.x), image (grok-imagine), video (grok-imagine-video) |
 
 ---
 
-## ✨ Features
+## 🌐 Acesso
 
-- **Image Studio** — Generate images from text prompts (50+ text-to-image models) or transform existing images (55+ image-to-image models). Switches model set automatically based on whether a reference image is provided. Quality and resolution controls visible for models that support them.
-- **Local Inference** — Two engines: **sd.cpp** (bundled, runs on Mac/Win/Linux with Metal/CUDA/Vulkan/ROCm) for SD 1.5, SDXL, and Z-Image; and **Wan2GP** (BYO Gradio server) for Flux, Qwen-Image, and video models (Wan 2.2, Hunyuan, LTX). Configure both in Settings → Local Models.
-- **Multi-Image Input** — Upload up to 14 reference images for compatible edit models (Nano Banana 2 Edit, Flux Kontext Dev, GPT-4o Edit, and more). Multi-select picker with order badges, batch upload, and a "Use Selected" confirmation flow.
-- **Video Studio** — Generate videos from text prompts (40+ text-to-video models) or animate a start-frame image (60+ image-to-video models). Same intelligent mode switching as Image Studio.
-- **Lip Sync Studio** — Animate portrait images or sync lips on existing videos using audio. 9 dedicated models across two modes: portrait image + audio → talking video, and video + audio → lipsync video.
-- **Cinema Studio** — Interface for photorealistic cinematic shots with pro camera controls (Lens, Focal Length, Aperture)
-- **Workflow Studio** — Build and run multi-step AI pipelines visually. Chain image, video, and audio models into automated flows. Browse community templates, create your own with a node-based editor, and run them via an interactive playground.
-- **Upload History** — Reference images are uploaded once and stored locally. A picker panel lets you reuse any previously uploaded image across sessions — no re-uploading.
-- **Smart Controls** — Dynamic aspect ratio, resolution/quality, and duration pickers that adapt to each model's capabilities (including t2i models with resolution or quality options)
-- **Generation History** — Browse, revisit, and download all past generations (persisted in browser storage)
-- **Image & Video Download** — One-click download of generated outputs in full resolution
-- **API Key Management** — Secure API key storage in browser localStorage (never sent to any server except Muapi)
-- **Responsive Design** — Works seamlessly on desktop and mobile with dark glassmorphism UI
+- **URL:** https://comfyui.nexusmind.digital
+- **Login browser:** usuário `nexusmind` / senha definida no env `COMFYUI_DEFAULT_PASS_HASH` (bcrypt)
+- **API/MCP:** header `Authorization: Bearer <COMFYUI_API_TOKEN>`
 
-### 🖼️ Image Studio — Dual Mode
+### Credenciais (referência, não colocar em chat)
 
-The Image Studio automatically switches between two model sets:
+- Senha do browser: hash bcrypt em `deploy/comfyui.yaml` → `COMFYUI_DEFAULT_PASS_HASH`
+- Token da API: em `deploy/comfyui.yaml` → `COMFYUI_API_TOKEN`
+- Ambos também em `~/.hermes/config.yaml` → `mcp_servers.comfyui.env`
 
-| Mode | Trigger | Models | Prompt |
-| :--- | :--- | :--- | :--- |
-| **Text-to-Image** | Default (no image) | 50+ t2i models (Flux, Nano Banana 2, Seedream 5.0, Ideogram, GPT-4o, Midjourney…) | Required |
-| **Image-to-Image** | Reference image uploaded | 55+ i2i models (Kontext, Nano Banana 2 Edit, Seedream 5.0 Edit, Seededit, Upscaler…) | Optional |
+---
 
-#### Newly Added Models
-
-| Model | Type | Key Features |
-| :--- | :--- | :--- |
-| **Nano Banana 2** | Text-to-Image | Google Gemini 3.1 Flash Image · Resolution 1K/2K/4K · Google Search enhancement · aspect ratio `auto` |
-| **Nano Banana 2 Edit** | Image-to-Image | Up to **14 reference images** · Resolution 1K/2K/4K · Google Search enhancement |
-| **Seedream 5.0** | Text-to-Image | ByteDance · Quality basic/high · 8 aspect ratios · up to 4K |
-| **Seedream 5.0 Edit** | Image-to-Image | ByteDance · Natural language style transfer · Quality basic/high |
-| **MiniMax Image 01** | Text-to-Image | MiniMax · 8 aspect ratios · up to 4 images per request · 1500 char prompt |
-
-#### Multi-Image Input
-
-Models that accept multiple reference images expose a multi-select picker when active:
-
-| Model | Max Images |
-| :--- | :--- |
-| Nano Banana 2 Edit | 14 |
-| Nano Banana Edit | 10 |
-| Flux Kontext Dev I2I | 10 |
-| Kling O1 Edit Image | 10 |
-| GPT-4o Edit / GPT Image 1.5 Edit | 10 |
-| Bytedance Seedream Edit v4 / v4.5 | 10 |
-| Vidu Q2 Reference to Image | 7 |
-| Flux 2 Flex/Pro Edit | 8 |
-| Nano Banana Pro Edit | 8 |
-| Flux Kontext Pro/Max I2I | 2 |
-| Wan 2.5/2.6 Image Edit | 2–3 |
-| Qwen Image Edit Plus / 2511 | 3 |
-| GPT-4o Image to Image | 5 |
-| Flux 2 Klein 4b/9b Edit | 4 |
-
-When a multi-image model is selected the upload trigger switches to multi-select mode:
-- **Checkboxes with order numbers** — images are sent to the model in the order you select them
-- **Batch upload** — pick multiple files at once from your file dialog
-- **Count badge** on the trigger shows how many images are active; a `+` badge appears when more slots are available
-- **"Use Selected" button** confirms and closes the picker
-
-### 🎬 Video Studio — Dual Mode
-
-The Video Studio follows the same pattern:
-
-| Mode | Trigger | Models | Prompt |
-| :--- | :--- | :--- | :--- |
-| **Text-to-Video** | Default (no image) | 40+ t2v models (Kling, Sora, Veo, Wan, Seedance 2.0, Hailuo, Runway…) | Required |
-| **Image-to-Video** | Start frame uploaded | 60+ i2v models (Kling I2V, Veo3 I2V, Runway I2V, Wan I2V, Seedance 2.0 I2V, Midjourney I2V…) | Optional |
-
-#### Newly Added Models
-
-| Model | Type | Key Features |
-| :--- | :--- | :--- |
-| **Seedance 2.0** | Text-to-Video | ByteDance · Aspect ratios 16:9 / 9:16 / 4:3 / 3:4 · Duration 5 / 10 / 15s · Quality basic/high |
-| **Seedance 2.0 I2V** | Image-to-Video | ByteDance · Animate images into video · Up to 9 reference images · Aspect ratios 16:9 / 9:16 / 4:3 / 3:4 · Duration 5 / 10 / 15s · Quality basic/high |
-| **Seedance 2.0 Extend** | Video Extension | ByteDance · Seamlessly continue any Seedance 2.0 generation · Preserves style, motion & audio · Optional continuation prompt · Duration 5 / 10 / 15s · Quality basic/high |
-| **Grok Imagine T2V** | Text-to-Video | xAI · Duration 6 / 10 / **15s** · Modes: fun / normal / spicy · Aspect ratios 9:16 / 16:9 / 2:3 / 3:2 / 1:1 |
-| **Grok Imagine I2V** | Image-to-Video | xAI · Duration 6 / 10 / **15s** · Modes: fun / normal / spicy · Cinematic motion from still images |
-| **MiniMax Hailuo 02 / 2.3 Standard & Pro** | Text-to-Video / Image-to-Video | MiniMax · Full HD video · Multiple aspect ratios · Fast variant included |
-
-### 🎙️ Lip Sync Studio
-
-The **Lip Sync Studio** generates audio-driven talking videos using 9 models across two input modes:
-
-| Mode | Trigger | Description |
-| :--- | :--- | :--- |
-| **Portrait Image** | Default | Upload a portrait image + audio file → animated talking video |
-| **Video** | Switch to Video mode | Upload an existing video + audio file → lipsync video |
-
-#### Image-based Models (Portrait Image + Audio → Video)
-
-| Model | Endpoint | Resolutions | Prompt |
-| :--- | :--- | :--- | :--- |
-| **Infinite Talk** | `infinitetalk-image-to-video` | 480p, 720p | Optional |
-| **Wan 2.2 Speech to Video** | `wan2.2-speech-to-video` | 480p, 720p | Optional |
-| **LTX 2.3 Lipsync** | `ltx-2.3-lipsync` | 480p, 720p, 1080p | Optional |
-| **LTX 2 19B Lipsync** | `ltx-2-19b-lipsync` | 480p, 720p, 1080p | Optional |
-
-#### Video-based Models (Video + Audio → Lipsync Video)
-
-| Model | Endpoint | Resolutions | Prompt |
-| :--- | :--- | :--- | :--- |
-| **Sync Lipsync** | `sync-lipsync` | — | — |
-| **LatentSync** | `latentsync-video` | — | — |
-| **Creatify Lipsync** | `creatify-lipsync` | — | — |
-| **Veed Lipsync** | `veed-lipsync` | — | — |
-| **Infinite Talk V2V** | `infinitetalk-video-to-video` | 480p, 720p | Optional |
-
-**How it works:**
-1. Select **Portrait Image** or **Video** mode using the toggle
-2. Upload your portrait image (or video) using the image/video upload button
-3. Upload your audio file using the audio upload button
-4. Optionally enter a prompt to guide the motion style
-5. Select a model and resolution (where supported), then click **Generate**
-
-Generation history is saved separately in `lipsync_history` and pending jobs resume automatically on page reload.
-
-### 🔀 Workflow Studio
-
-The **Workflow Studio** lets you build and run multi-step AI pipelines without writing code.
-
-**Key capabilities:**
-- **Templates** — Start from pre-built workflows (image chains, video pipelines, and more)
-- **My Workflows** — Save and manage your own custom pipelines
-- **Community** — Browse and run workflows published by other users
-- **Node-based Builder** — Drag-and-drop visual editor to connect models and route outputs between steps
-- **Playground** — Run any workflow interactively with a form UI; results render inline
-- **API execution** — Every workflow is also callable via the Muapi API
-
-> 💡 **Want to add workflows to your own app?** Check out **[Vibe Workflow](https://github.com/SamurAIGPT/Vibe-Workflow)** — the open-source workflow engine powering this feature. Drop it into any project.
-
-### 🎥 Cinema Studio Controls
-
-The **Cinema Studio** offers precise control over the virtual camera, translating your choices into optimized prompt modifiers:
-
-| Category | Available Options |
-| :--- | :--- |
-| **Cameras** | Modular 8K Digital, Full-Frame Cine Digital, Grand Format 70mm Film, Studio Digital S35, Classic 16mm Film, Premium Large Format Digital |
-| **Lenses** | Creative Tilt, Compact Anamorphic, Extreme Macro, 70s Cinema Prime, Classic Anamorphic, Premium Modern Prime, Warm Cinema Prime, Swirl Bokeh Portrait, Vintage Prime, Halation Diffusion, Clinical Sharp Prime |
-| **Focal Lengths** | 8mm (Ultra-Wide), 14mm, 24mm, 35mm (Human Eye), 50mm (Portrait), 85mm (Tight Portrait) |
-| **Apertures** | f/1.4 (Shallow DoF), f/4 (Balanced), f/11 (Deep Focus) |
-
-### 📁 Upload History & Picker
-
-Every image you upload is saved locally (URL + thumbnail) so you never upload the same file twice:
-
-- Click the upload button to open the **reference image picker**
-- Previously uploaded images appear in a 3-column grid with thumbnails
-- **Single-image models** — click a thumbnail to instantly select and close
-- **Multi-image models** — toggle multiple thumbnails (shown with order numbers), then click **Use Selected**
-- Upload new images with the **Upload files** button (supports multi-file selection in multi-image mode)
-- Remove individual images from history with the ✕ button
-- History persists across browser sessions (stored in `localStorage`)
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18+)
-- A [Muapi.ai access key](https://muapi.ai/access-keys?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai). Copy the generated key value into the app; do not enter the key name or label.
-
-### Setup
-
-> **Most users want the desktop app, not this dev path.** If you just want to run Open Generative AI on your machine, [download a prebuilt installer](#-download-desktop-app) instead — no Node.js required. The instructions below are for contributors building from source.
-
-Pick the entry point that matches your goal:
-
-- **Desktop app (Electron)** → `npm run electron:dev`
-- **Hosted web version (Next.js)** → `npm run dev`
-
-```bash
-# Clone the repository (with submodules — required for the workflow + agent packages)
-git clone --recurse-submodules https://github.com/Anil-matcha/Open-Generative-AI.git
-cd Open-Generative-AI
-
-# If you already cloned without --recurse-submodules, run this once:
-# git submodule update --init --recursive
-
-# Install dependencies + build workspace packages (studio, workflow, agents).
-# This step is REQUIRED — `npm install` alone is not enough; the workspaces
-# need to be built before either dev script will work.
-npm run setup
-
-# Then start ONE of:
-npm run electron:dev   # Desktop app (Electron + Vite) — recommended
-npm run dev            # Hosted web version (Next.js) → http://localhost:3000
-```
-
-You'll be prompted to enter your Muapi API key on first use (skip the key if you only plan to use local models).
-
-> **Troubleshooting — `Couldn't find a 'pages' directory`**: this means Next.js can't see the `app/` folder. Confirm you're running `npm run dev` from the repo root (the directory that contains `app/`, `package.json`, and `next.config.mjs`), and that you cloned with submodules. Re-run `npm run setup` if `packages/Vibe-Workflow` or `packages/agents` are empty.
-
-### Production Build
-
-```bash
-npm run build
-npm run start
-```
-
-### Desktop App Build
-
-Build native desktop apps with Electron:
-
-```bash
-# macOS (DMG — Intel + Apple Silicon)
-npm run electron:build
-
-# Windows (NSIS installer — x64 + ARM64)
-npm run electron:build:win
-
-# Linux (AppImage + DEB — x64)
-npm run electron:build:linux
-
-# Both platforms in one pass
-npm run electron:build:all
-```
-
-Installers are output to the `release/` folder. Pre-built binaries are also available on the [Releases page](https://github.com/Anil-matcha/Open-Generative-AI/releases).
-
-## 🏗️ Architecture
-
-The app is a **Next.js monorepo** with a shared `packages/studio` component library.
+## 📁 Estrutura de Arquivos
 
 ```
 Open-Generative-AI/
-├── app/                        # Next.js App Router
-│   ├── layout.js               # Root layout (Tailwind, fonts)
-│   ├── page.js                 # Redirects → /studio
-│   └── studio/
-│       └── page.js             # Studio page — renders StandaloneShell
-├── components/
-│   ├── StandaloneShell.js      # Tab nav + BYOK (API key from localStorage)
-│   └── ApiKeyModal.js          # API key entry modal
-├── packages/
-│   └── studio/                 # Shared React component library
-│       └── src/
-│           ├── index.js        # Exports: ImageStudio, VideoStudio, AudioStudio, ClippingStudio, VibeMotionStudio, LipSyncStudio, CinemaStudio, MarketingStudio, WorkflowStudio, AgentStudio, DesignAgentStudio, AppsStudio, McpCliStudio
-│           ├── models.js       # 200+ model definitions (single source of truth)
-│           ├── muapi.js        # API client (named exports, apiKey as first param)
-│           └── components/
-│               ├── ImageStudio.jsx    # Dual-mode t2i/i2i studio
-│               ├── VideoStudio.jsx    # Dual-mode t2v/i2v studio
-│               ├── LipSyncStudio.jsx  # Portrait/video + audio → talking video
-│               ├── CinemaStudio.jsx   # Pro studio with camera controls
-│               └── WorkflowStudio.jsx # Multi-step pipeline builder & playground
-├── next.config.mjs             # transpilePackages: ['studio']
-├── tailwind.config.js
-└── package.json                # workspaces: ["packages/studio"]
+├── Dockerfile              # Build da imagem (clone + pip install + patch auth + custom nodes)
+├── entrypoint.sh           # Symlinks + CLI args do ComfyUI
+├── deploy/
+│   └── comfyui.yaml        # Stack Docker Swarm (Portainer stack 452)
+├── workflows/              # Workflows de teste e referência (JSON)
+│   ├── 01_chat_prompt_enhancement.json          # OmniRoute (Mistral) → NexusMind (Grok) → OmniRoute (Claude)
+│   ├── 02_omniroute_gpt5_image.json             # OmniRoute GPT-5 Image → Preview
+│   ├── 03_nexusmind_grok_image.json             # NexusMind Grok Imagine → Preview
+│   ├── 04_omniroute_veo_video.json              # OmniRoute Veo (async) → Retrieve → Preview
+│   └── 05_full_pipeline_enhance_image_video.json # Enhance → Image → Video
+└── auth/
+    ├── auth_inject.py       # Código do middleware: login, session, Bearer token, login HTML
+    ├── patch_server.py      # Script Python que injeta auth_inject.py no server.py durante o build
+    ├── models.py            # (legacy) Modelo SQLAlchemy — não usado na versão atual
+    ├── auth_middleware.py   # (legacy) Middleware alternativo — não usado na versão atual
+    ├── auth_routes.py       # (legacy) Rotas alternativas — não usado na versão atual
+    └── user_manager_patched.py  # (legacy) Override do user_manager — não usado na versão atual
 ```
 
-The `packages/studio` library is also consumed by the hosted version on [muapi.ai](https://muapi.ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai) — model updates made in `packages/studio/src/models.js` apply to both the self-hosted app and the hosted version automatically.
+> **Atenção:** Os arquivos `models.py`, `auth_middleware.py`, `auth_routes.py`, `user_manager_patched.py` são legacy de uma abordagem anterior com SQLAlchemy. A versão atual usa apenas `auth_inject.py` + `patch_server.py`.
 
-## 🔌 API Integration
+---
 
-The app communicates with [Muapi.ai](https://muapi.ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai) using a two-step pattern:
+## 🏗️ Como o Build Funciona
 
-1. **Submit** — `POST /api/v1/{model-endpoint}` with prompt and parameters
-2. **Poll** — `GET /api/v1/predictions/{request_id}/result` until status is `completed`
+### Dockerfile (passo a passo)
 
-Authentication uses the `x-api-key` header. During development, a Vite proxy handles CORS by routing `/api` requests to `https://api.muapi.ai`.
+1. **Base:** `python:3.11-slim` (ECR — evita rate limit do Docker Hub)
+2. **Sistema:** `apt-get install git curl ffmpeg build-essential`
+3. **PyTorch CPU:** `torch==2.5.1+cpu` (sem GPU)
+4. **Clone ComfyUI:** `git clone --branch v0.28.0 --depth 1` de `comfyanonymous/ComfyUI`
+5. **Clone + pip install Manager:** `git clone --branch 4.2.2 --depth 1` de `Comfy-Org/ComfyUI-Manager` + `pip install /tmp/ComfyUI-Manager`
+   > ⚠️ Manager 4.2.2 não tem `__init__.py` na raiz — é um package pip-installável. Só clonar não funciona; precisa `pip install`.
+6. **pip install requirements** do ComfyUI
+7. **pip install bcrypt** para auth
+8. **COPY auth/** → `/app/ComfyUI/auth/`
+9. **Patch server.py:** `python /app/ComfyUI/auth/patch_server.py`
+   - Adiciona `auth_middleware` à lista de middlewares
+   - Injeta rotas `/api/auth/*` no método `add_routes()`
+   - Anexa código de `auth_inject.py` ao final do arquivo
+   - Verifica com `grep "AUTH ROUTES"` que o patch foi aplicado
+10. **Backup** de `custom_nodes` e `models` para inicialização do volume
+11. **entrypoint.sh** copiado e com `chmod +x`
 
-File uploads use `POST /api/v1/upload_file` (multipart/form-data) and return a hosted URL that is passed to image-conditioned models. For multi-image models the full `images_list` array is forwarded to the API in one request.
+### Entrypoint.sh
 
-Lip sync jobs use the same two-step pattern: a dedicated `processLipSync()` method accepts `image_url` or `video_url` alongside `audio_url`, dispatches to the model's endpoint, and polls until the output video URL is available.
+1. Cria diretórios em `/workspace/` (volume persistente)
+2. Se volume vazio: copia defaults (incl. ComfyUI-Manager) dos backups
+3. Cria symlinks: `/app/ComfyUI/custom_nodes` → `/workspace/custom_nodes`, etc.
+4. Executa ComfyUI com flags otimizadas:
 
-## 🎨 Supported Model Categories
+```bash
+python /app/ComfyUI/main.py \
+    --listen 0.0.0.0 \
+    --port 8188 \
+    --cpu \
+    --enable-manager \
+    --enable-cors-header \
+    --enable-compress-response-body \
+    --max-upload-size 100 \
+    --front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4 \
+    --output-directory /workspace/output \
+    --input-directory /workspace/input \
+    --user-directory /workspace/user \
+    --models-directory /workspace/models \
+    --temp-directory /workspace/temp
+```
 
-| Category | Count | Examples |
+---
+
+## 🔐 Sistema de Auth
+
+### Arquitetura
+
+```
+Request → Traefik (TLS) → ComfyUI (aiohttp) → auth_middleware → handler
+                                                          ↓
+                                              Bearer token? → bypass (MCP)
+                                              Cookie session? → bypass (browser)
+                                              Nenhum? → login HTML / 401 JSON
+```
+
+### Fluxos de auth
+
+**Browser:**
+1. `GET /` sem cookie → HTML da tela de login
+2. `POST /api/auth/login` com `{username, password}` → bcrypt.checkpw → set cookie `comfy_session` (7 dias, httponly)
+3. `GET /` com cookie → interface ComfyUI
+
+**MCP/API:**
+1. Request com header `Authorization: Bearer <COMFY...N>` → bypass direto
+
+### Variáveis de ambiente (deploy/comfyui.yaml)
+
+| Env | Função | Exemplo |
 |---|---|---|
-| **Text-to-Image** | 50+ | Flux Dev, Nano Banana 2, Seedream 5.0, Ideogram v3, Midjourney v7, GPT-4o, SDXL |
-| **Image-to-Image** | 55+ | Nano Banana 2 Edit (×14), Flux Kontext Pro, GPT-4o Edit, Seededit v3, Upscaler, Background Remover |
-| **Text-to-Video** | 40+ | Kling v3, Sora 2, Veo 3, Wan 2.6, Seedance 2.0, Seedance 2.0 Extend, Seedance Pro, Hailuo 2.3, Runway Gen-3 |
-| **Image-to-Video** | 60+ | Kling v2.1 I2V, Veo3 I2V, Runway I2V, Seedance 2.0 I2V, Midjourney v7 I2V, Hunyuan I2V, Wan2.2 I2V |
-| **Lip Sync** | 9 | Infinite Talk I2V, Wan 2.2 Speech to Video, LTX 2.3 Lipsync, LTX 2 19B Lipsync, Sync, LatentSync, Creatify, Veed, Infinite Talk V2V |
+| `COMFYUI_AUTH_ENABLED` | Liga/desliga auth | `true` |
+| `COMFYUI_DEFAULT_USER` | Usuário único | `nexusmind` |
+| `COMFYUI_DEFAULT_PASS_HASH` | Hash bcrypt da senha | `$2b$12$...` |
+| `COMFYUI_API_TOKEN` | Token fixo para MCP/API | (random 32 chars) |
 
-## 🛠️ Tech Stack
+> Sessions são **in-memory** (`_valid_sessions = {}`). Restart do container = todos perdem login (fazem login de novo). Token API é stateless.
 
-- **Next.js 14** — App Router, server components, fast dev server
-- **React 18** — Studio UI components
-- **Tailwind CSS v3** — Utility-first styling
-- **npm workspaces** — Monorepo with shared `packages/studio` library
-- **Muapi.ai** — AI model API gateway
+### Gerar nova senha bcrypt
 
-## 🤔 How is this different from other AI Video Platforms?
+```bash
+python3 -c "import bcrypt; print(bcrypt.hashpw(b'NOVA_SENHA', bcrypt.gensalt(12)).decode())"
+```
 
-**Open Generative AI** is a community-driven, open-source alternative that provides similar creative capabilities without the closed ecosystem:
+### Gerar novo token API
 
-| | Other providers | Open Generative AI |
-| :--- | :--- | :--- |
-| **Cost** | Subscription-based | Free (open-source) |
-| **Content filters** | Yes — prompts blocked or altered | None |
-| **Restrictions** | Platform guardrails enforced | Full creative freedom |
-| **Models** | Proprietary | 200+ open & commercial models |
-| **Multi-image input** | Limited | Up to 14 images per request |
-| **Lip sync** | No | 9 models, image & video modes |
-| **Hosted version** | Subscription | Free at [muapi.ai/open-generative-ai](https://muapi.ai/open-generative-ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai) |
-| **Self-hosting** | No | Yes |
-| **Customizable** | No | Fully hackable |
-| **Data privacy** | Cloud-based | Your data stays local |
-| **Source code** | Closed | MIT licensed |
-
-## 📄 License
-
-MIT
-
-## 🙏 Credits
-
-Built with [Muapi.ai](https://muapi.ai?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai) — the unified API for AI image and video generation models.
+```bash
+python3 -c "import secrets; print(secrets.token_urlsafe(32))"
+```
 
 ---
-**Deep Dive**: For more details on the "AI Influencer" engine, upcoming "Popcorn" storyboarding features, and the future of this project, read the [full technical overview](https://medium.com/@anilmatcha/).
+
+## 🔌 Configuração do MCP (Hermes)
+
+Em `~/.hermes/config.yaml`:
+
+```yaml
+comfyui:
+  command: npx
+  args:
+    - -y
+    - comfyui-mcp
+  env:
+    COMFYUI_URL: https://comfyui.nexusmind.digital
+    COMFYUI_AUTH_HEADER: Authorization
+    COMFYUI_AUTH_SCHEME: Bearer
+    COMFYUI_AUTH_TOKEN: <MESMO_TOKEN_DO_DEPLOY_YAML>
+  connect_timeout: 30
+  timeout: 120
+```
+
+O `comfyui-mcp` (npm `comfyui-mcp@0.46.0`) envia `Authorization: Bearer <token>` em toda requisição. O middleware do ComfyUI valida e faz bypass do cookie.
+
+> Após mudar a config do MCP, reiniciar o Hermes para recarregar.
 
 ---
-*Looking for a free, open-source AI Video Platform? Open Generative AI is an open-source AI image and video generation studio — with no content filters that you can self-host, customize, and extend.*
+
+## 🚀 Deploy e Redeploy
+
+### Build da imagem
+
+```bash
+cd ~/Documents/Develop/Open-Generative-AI
+docker buildx build --platform linux/amd64 -t heltonfraga/comfyui:v0.28.0-v5 -f Dockerfile --push .
+```
+
+> ⚠️ Docker Hub rate limit (429) é comum. Se falhar, aguardar 3-5 min e retentar. O push das layers geralmente completa mesmo com erro 429 no pull (rate limit é por IP, não por push).
+
+### Redeploy via Portainer API
+
+```bash
+source ~/.config/cortexx/secrets/portainer.env
+CONTENT=$(cat deploy/comfyui.yaml | jq -Rs .)
+curl -s -k -X PUT "$PORTAINER_URL/api/stacks/452?endpointId=1" \
+  -H "X-API-Key: $PORTAINER_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "{\"StackFileContent\": ${CONTENT}, \"Prune\": false, \"PullImage\": true}"
+```
+
+### Verificar funcionamento
+
+```bash
+# 1. Sem auth → deve retornar 200 (login HTML)
+curl -s -o /dev/null -w "%{http_code}" https://comfyui.nexusmind.digital/
+
+# 2. Login → deve retornar {"success": true}
+curl -s https://comfyui.nexusmind.digital/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"nexusmind","password":"<SENHA>"}'
+
+# 3. Bearer token (MCP) → deve retornar 200
+curl -s -H "Authorization: Bearer <TOKEN>" -o /dev/null -w "%{http_code}" https://comfyui.nexusmind.digital/system_stats
+```
+
+> **NUNCA marcar como concluído sem executar os 3 testes acima.** 404 não é funcionando.
+
+---
+
+## ⚠️ Pitfalls e Lições Aprendidas
+
+### 1. ComfyUI-Manager 4.2.2 não tem `__init__.py` na raiz
+A partir da 4.2.2, o Manager virou package pip-installável. Só `git clone` dentro de `custom_nodes/` **não funciona** — o ComfyUI procura `__init__.py` na raiz do custom node e não encontra. Solução: `pip install` + `cp -r` para a pasta `custom_nodes/`.
+
+### 2. Patch do server.py precisa de indentação correta
+O `server.py` da v0.28.0 tem 8 espaços de indentação. O `patch_server.py` faz `str.replace()` do padrão exato:
+```
+"        routes = web.RouteTableDef()\n        self.routes = routes"
+```
+Se erroneamente usar 0 espaços, o replace não encontra, as rotas não são injetadas, e `routes is not defined` no runtime.
+
+### 3. Docker Hub rate limit (429 Too Many Requests)
+Builds frequentes batem o limite. As layers **subem** mesmo com erro 429 (o rate limit é no pull, não no push). Mas o Swarm pode não conseguir `pullImage` se o servidor também estiver rate-limited. Aguardar 5-10 min entre deploys.
+
+### 4. Docker buildx cache
+Se alterar `auth_inject.py` ou `patch_server.py` mas não alterar o `COPY auth/` (que invalida o cache), o buildx pode usar cache da camada do `RUN python patch_server.py`. Forçar invalidação com `--no-cache` ou mudar algo no `COPY` (ex: `COPY auth/ /app/ComfyUI/auth/` já invalida se o conteúdo mudar).
+
+### 5. ComfyUI nativo NÃO tem auth com senha
+O `--multi-user` só cria perfis separados com UUID — sem senha, sem login. A auth com senha é **inteiramente** via o patch `auth_inject.py`. Sem o patch, qualquer um acessa.
+
+### 6. `WEB_ENABLE_AUTH` não existe
+Essa env var foi inventada em iterações anteriores. Não existe no código do ComfyUI. As env vars reais são `COMFYUI_AUTH_ENABLED`, `COMFYUI_DEFAULT_USER`, `COMFYUI_DEFAULT_PASS_HASH`, `COMFYUI_API_TOKEN` (todas custom, definidas no `auth_inject.py`).
+
+### 7. Basicauth do Traefik/Cloudflare foi removido
+A versão anterior usava `traefik.http.middlewares.comfyui-auth.basicauth.users=nexusmind:$$apr1$$...` no yaml. Isso foi **removido**. A auth é nativa no ComfyUI agora. Não adicionar de volta.
+
+### 8. Volume `v3` é o atual
+`v1` e `v2` são volumes antigos com dados de tentativas anteriores. `v3` é limpo e atual.
+
+---
+
+## 🔄 Atualizar Versões no Futuro
+
+Para atualizar ComfyUI, Manager ou Frontend:
+
+1. **Verificar tag estável** nos repositórios:
+   - https://github.com/comfyanonymous/ComfyUI/tags
+   - https://github.com/Comfy-Org/ComfyUI-Manager/tags
+   - https://github.com/Comfy-Org/ComfyUI_frontend/releases
+
+2. **Atualizar Dockerfile:**
+   - Linha 17: `--branch v0.28.0` → nova tag
+   - Linha 20: `--branch 4.2.2` → nova tag
+   - Linha 46 (entrypoint.sh): `--front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4` → nova tag
+
+3. **Verificar se Manager mudou estrutura:**
+   - Tag 4.2.2 não tem `__init__.py` na raiz (precisa `pip install`)
+   - Se voltar a ter `__init__.py`, remover o `pip install` e manter só `git clone` + `cp`
+
+4. **Atualizar tag da imagem:** `heltonfraga/comfyui:v0.28.0-v5` → `v0.28.0-v6` (ou nova versão)
+
+5. **Build → Push → Deploy → Testar os 3 endpoints**
+
+---
+
+## 🎨 Workflows de Teste e Referência
+
+> Para usar: arraste o arquivo JSON para dentro da interface do ComfyUI, ou use o botão "Load" no menu.
+> Substitua `OMNIROUTE_API_KEY_HERE` e `NEXUSMIND_API_KEY_HERE` pelas chaves reais.
+
+### 01 — Chat: Prompt Enhancement
+
+`workflows/01_chat_prompt_enhancement.json`
+
+```
+OmniRoute (Mistral Large) → NexusMind (Grok 4.5) → history
+                          → OmniRoute (Claude Sonnet) → critique
+```
+
+OmniRoute enhances a simple concept into a rich image prompt. NexusMind writes a story from it. Claude critiques the prompt quality. Tudo via `/v1/chat/completions`.
+
+**Nodes:** `TextGeneration_AICustomURL` × 3
+
+---
+
+### 02 — OmniRoute GPT-5 Image
+
+`workflows/02_omniroute_gpt5_image.json`
+
+```
+OmniRoute (kilocode/gpt-5-image) → PreviewImage
+```
+
+Gera imagem via OmniRoute. Endpoint: `/v1/images/generations`.
+
+**Nodes:** `ImageGeneration_AICustomURL`, `PreviewImage`
+
+---
+
+### 03 — NexusMind Grok Imagine Image
+
+`workflows/03_nexusmind_grok_image.json`
+
+```
+NexusMind (grok-imagine-image) → PreviewImage
+```
+
+Gera imagem via Grok Imagine da NexusMind. Mesmo endpoint OpenAI-compatible.
+
+**Nodes:** `ImageGeneration_AICustomURL`, `PreviewImage`
+
+---
+
+### 04 — OmniRoute Veo Video (async)
+
+`workflows/04_omniroute_veo_video.json`
+
+```
+OmniRoute (veo-free/veo) → video_id
+VideoRetrieve → video_url
+VideoPreview → player
+```
+
+Vídeo é assíncrono. Node 1 submete e retorna `video_id`. Node 2 faz poll com o `video_id` até o vídeo estar pronto. Node 3 mostra o player.
+
+**Nodes:** `VideoGeneration_AICustomURL`, `VideoRetrieve_AICustomURL`, `VideoPreview_AICustomURL`
+
+---
+
+### 05 — Full Pipeline: Enhance → Image → Video
+
+`workflows/05_full_pipeline_enhance_image_video.json`
+
+```
+OmniRoute (Mistral) → enhanced prompt
+OmniRoute (GPT-5 Image) → image from prompt → Preview
+NexusMind (Grok Video) → video from image
+```
+
+Pipeline completo: um LLM do OmniRoute transforma um conceito simples em um prompt visual rico → gera imagem → envia a imagem para o Grok animar em vídeo.
+
+---
+
+### Nodes disponíveis do ComfyUI-AI-CustomURL
+
+| Node ID | Categoria | Inputs principais | Outputs |
+|---|---|---|---|
+| `TextGeneration_AICustomURL` | ai_customurl | base_url, api_key, model, prompt, temperature, max_tokens, system_prompt, image | text (STRING), full_response (STRING) |
+| `ImageGeneration_AICustomURL` | ai_customurl | base_url, api_key, prompt, model, n, size, quality, style, response_format | images (IMAGE), urls (STRING) |
+| `VideoGeneration_AICustomURL` | ai_customurl | base_url, api_key, model, prompt, resolution, duration, fps, aspect_ratio, auto_poll, image | video_url, video_id, api_key, status, response_json |
+| `VideoRetrieve_AICustomURL` | ai_customurl | base_url, api_key, video_id | video_url, status, response_json |
+| `VideoPreview_AICustomURL` | ai_customurl | video_url | — |
+| `SpeechGeneration_AICustomURL` | ai_customurl | base_url, api_key, model, input, response_format, speed | audio (AUDIO), file_path (STRING) |
+| `ImageLoader_AICustomURL` | ai_customurl | url | image (IMAGE) |
+| `SaveVideo_AICustomURL` | ai_customurl | video_url, filename | — |
+
+### 9. `cp -r` cria subdirectory errado se não usar `/.`
+`cp -r /app/ComfyUI/custom_nodes /app/ComfyUI/custom_nodes_default` cria `custom_nodes_default/custom_nodes/...`. O correto é `cp -r /app/ComfyUI/custom_nodes/. /app/ComfyUI/custom_nodes_default/` para copiar o **conteúdo** da pasta, não a pasta em si. Sem isso, o ComfyUI tenta carregar `custom_nodes/custom_nodes/__init__.py` e falha.
+
+### 10. Volume novo para forçar re-init dos custom nodes
+Ao adicionar novos custom nodes no Dockerfile, o entrypoint só copia defaults se o volume estiver **vazio**. Volume antigo (v3) já tinha `custom_nodes` preenchido → sync incremental só copia nodes novos, mas pode falhar com o subdirectory bug (pitfall #9). Solução: bumpar o volume (v4, v5, ...) para forçar init limpo.
+
+---
+
+## 📞 Suporte
+
+- **Repo local:** `~/Documents/Develop/Open-Generative-AI/`
+- **Credenciais Portainer:** `~/.config/cortexx/secrets/portainer.env`
+- **Stack ID:** `452` (endpoint `1`)
+- **Skill Hermes:** `comfyui-swarm-deployment` em `~/.hermes/skills/`
