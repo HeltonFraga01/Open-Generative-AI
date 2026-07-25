@@ -1,0 +1,119 @@
+{
+  "last_node_id": 2,
+  "last_link_id": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "NexusVideo",
+      "pos": [
+        100,
+        200
+      ],
+      "size": [
+        400,
+        500
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_url",
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video_url",
+          "type": "STRING",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "video_id",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "links": [
+            1
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "response_json",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "NexusVideo"
+      },
+      "widgets_values": [
+        "https://api.nexusmind.digital/v1",
+        "YOUR_NEXUSMIND_API_KEY",
+        "grok-imagine-video",
+        "A cute cat walking through a forest, cinematic lighting",
+        "540p",
+        "8",
+        true,
+        5,
+        300
+      ]
+    },
+    {
+      "id": 2,
+      "type": "SaveText",
+      "pos": [
+        580,
+        350
+      ],
+      "size": [
+        300,
+        100
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 1
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveText"
+      },
+      "widgets_values": [
+        "nexusvideo_t2v_status",
+        "txt"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      2,
+      2,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

@@ -67,6 +67,9 @@ RUN git clone --depth 1 https://github.com/asaddi/ComfyUI-YALLM-node.git /app/Co
 # 4. ComfyUI-Gemini-Antigravity — Gemini-native image generation via NexusMind Antigravity proxy
 COPY custom_nodes/ComfyUI-Gemini-Antigravity/__init__.py /app/ComfyUI/custom_nodes/ComfyUI-Gemini-Antigravity/__init__.py
 
+# 5. ComfyUI-NexusVideo — Grok video generation (text-to-video & image-to-video) via NexusMind sub2api
+COPY custom_nodes/ComfyUI-NexusVideo/__init__.py /app/ComfyUI/custom_nodes/ComfyUI-NexusVideo/__init__.py
+
 # Re-snapshot custom_nodes to include the new nodes for volume init
 # Use /. to copy CONTENTS (not the dir itself) — avoids custom_nodes/custom_nodes/ bug
 RUN rm -rf /app/ComfyUI/custom_nodes_default && \
