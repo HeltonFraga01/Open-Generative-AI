@@ -4,14 +4,14 @@
   "nodes": [
     {
       "id": 1,
-      "type": "ImageGeneration_AICustomURL",
+      "type": "AICustomURL_Image",
       "pos": [
-        300,
-        300
+        50,
+        100
       ],
       "size": [
-        420,
-        380
+        380,
+        250
       ],
       "flags": {},
       "order": 0,
@@ -19,44 +19,35 @@
       "inputs": [],
       "outputs": [
         {
-          "name": "images",
+          "name": "IMAGE",
           "type": "IMAGE",
           "links": [
             1
-          ]
-        },
-        {
-          "name": "urls",
-          "type": "STRING",
-          "links": null
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "ImageGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Image"
       },
       "widgets_values": [
         "https://api.nexusmind.digital/v1",
-        "NEXUSMIND_API_KEY_HERE",
-        "a serene Japanese garden with cherry blossoms, koi pond, traditional wooden bridge, soft morning light",
         "grok-imagine-image",
-        1,
-        "1024x1024",
-        "standard",
-        "vivid",
-        "url"
-      ],
-      "title": "NexusMind \u2014 Grok Imagine"
+        "[REDACTED]",
+        "a cyberpunk city at night with neon lights, rain reflections, dramatic atmosphere",
+        "1024x1024"
+      ]
     },
     {
       "id": 2,
-      "type": "PreviewImage",
+      "type": "SaveImage",
       "pos": [
-        800,
-        300
+        500,
+        100
       ],
       "size": [
         320,
-        320
+        270
       ],
       "flags": {},
       "order": 1,
@@ -69,8 +60,12 @@
         }
       ],
       "outputs": [],
-      "properties": {},
-      "title": "Preview"
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "NexusMind_Grok"
+      ]
     }
   ],
   "links": [
@@ -83,23 +78,8 @@
       "IMAGE"
     ]
   ],
-  "groups": [
-    {
-      "bounding": [
-        250,
-        200,
-        900,
-        500
-      ],
-      "color": "#A88",
-      "title": "NexusMind Image Generation \u2014 grok-imagine-image"
-    }
-  ],
+  "groups": [],
   "config": {},
   "extra": {},
-  "version": 0.4,
-  "metadata": {
-    "title": "03 - NexusMind Grok Imagine Image",
-    "description": "Generates an image via NexusMind's grok-imagine-image model. Uses /v1/images/generations endpoint."
-  }
+  "version": "0.4"
 }

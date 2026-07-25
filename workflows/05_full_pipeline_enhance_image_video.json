@@ -4,108 +4,93 @@
   "nodes": [
     {
       "id": 1,
-      "type": "TextGeneration_AICustomURL",
+      "type": "AICustomURL_Text",
       "pos": [
         50,
-        300
+        50
       ],
       "size": [
-        380,
-        300
+        350,
+        200
       ],
       "flags": {},
       "order": 0,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
-          "name": "text",
-          "type": "STRING",
+          "name": "TEXT",
+          "type": "TEXT",
           "links": [
-            1,
-            2
-          ]
-        },
-        {
-          "name": "full_response",
-          "type": "STRING",
-          "links": null
+            1
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "TextGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Text"
       },
       "widgets_values": [
         "https://omniroute.cortexx.online/v1",
-        "OMNIROUTE_API_KEY_HERE",
-        "mistral/mistral-large-latest",
-        "Take this concept and create a vivid visual prompt for image generation. Be concise (max 2 sentences).\n\nConcept: a lonely lighthouse on a cliff in a storm",
-        0.7,
-        256
-      ],
-      "title": "1. OmniRoute \u2014 Enhance Prompt"
+        "gpt-5-chat",
+        "[REDACTED]",
+        "Expand this into a detailed, cinematic prompt for image and video generation.",
+        "a girl with fox ears playing guitar at night"
+      ]
     },
     {
       "id": 2,
-      "type": "ImageGeneration_AICustomURL",
+      "type": "AICustomURL_Image",
       "pos": [
-        500,
-        200
+        450,
+        50
       ],
       "size": [
         380,
-        380
+        250
       ],
       "flags": {},
       "order": 1,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "text",
+          "type": "TEXT",
+          "link": 1
+        }
+      ],
       "outputs": [
         {
-          "name": "images",
+          "name": "IMAGE",
           "type": "IMAGE",
           "links": [
+            2,
             3
-          ]
-        },
-        {
-          "name": "urls",
-          "type": "STRING",
-          "links": null
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "ImageGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Image"
       },
       "widgets_values": [
         "https://omniroute.cortexx.online/v1",
-        "OMNIROUTE_API_KEY_HERE",
+        "gpt-5-image",
+        "[REDACTED]",
         "",
-        "kilocode/gpt-5-image",
-        1,
-        "1024x1024",
-        "standard",
-        "vivid",
-        "url"
-      ],
-      "title": "2. OmniRoute \u2014 GPT-5 Image (from prompt)"
+        "1024x1024"
+      ]
     },
     {
       "id": 3,
-      "type": "PreviewImage",
+      "type": "SaveImage",
       "pos": [
-        950,
-        200
+        880,
+        50
       ],
       "size": [
-        280,
-        280
+        320,
+        270
       ],
       "flags": {},
       "order": 2,
@@ -114,23 +99,27 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 3
+          "link": 2
         }
       ],
       "outputs": [],
-      "properties": {},
-      "title": "Image Preview"
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "Pipeline_Image"
+      ]
     },
     {
       "id": 4,
-      "type": "VideoGeneration_AICustomURL",
+      "type": "AICustomURL_Video",
       "pos": [
-        500,
-        650
+        450,
+        350
       ],
       "size": [
         380,
-        420
+        280
       ],
       "flags": {},
       "order": 3,
@@ -139,75 +128,59 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 4
+          "link": 3
         }
       ],
       "outputs": [
         {
-          "name": "video_url",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "video_id",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "api_key",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "status",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "response_json",
-          "type": "STRING",
-          "links": null
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            4
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "VideoGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Video"
       },
       "widgets_values": [
-        "https://api.nexusmind.digital/v1",
-        "NEXUSMIND_API_KEY_HERE",
-        "grok-imagine-video",
-        "Animate this image: camera slowly zooms in, storm clouds moving, waves crashing",
-        "720p",
-        5,
-        24,
-        "16:9",
-        "true",
-        10,
-        600
-      ],
-      "title": "3. NexusMind \u2014 Grok Video (from image)"
+        "https://omniroute.cortexx.online/v1",
+        "veo-free",
+        "[REDACTED]",
+        "",
+        "8s",
+        "1024x576"
+      ]
     },
     {
       "id": 5,
-      "type": "NoteVisualizationNode",
+      "type": "SaveVideo",
       "pos": [
-        50,
-        700
+        880,
+        350
       ],
       "size": [
-        380,
-        200
+        320,
+        120
       ],
       "flags": {},
       "order": 4,
       "mode": 0,
-      "inputs": [],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "FULL PIPELINE:\n\n1. OmniRoute (Mistral) \u2014 enhances a concept into a visual prompt\n2. OmniRoute (GPT-5 Image) \u2014 generates image from enhanced prompt\n3. NexusMind (Grok Video) \u2014 animates the image into a video\n\nThe text output of node 1 \u2192 paste into node 2's prompt.\nThe image output of node 2 \u2192 feeds into node 4 as input image."
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 4
+        }
       ],
-      "title": "Instructions"
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "Pipeline_Video"
+      ]
     }
   ],
   "links": [
@@ -217,18 +190,10 @@
       0,
       2,
       0,
-      "STRING"
+      "TEXT"
     ],
     [
       2,
-      1,
-      0,
-      4,
-      0,
-      "STRING"
-    ],
-    [
-      3,
       2,
       0,
       3,
@@ -236,41 +201,24 @@
       "IMAGE"
     ],
     [
-      4,
+      3,
       2,
       0,
       4,
       0,
       "IMAGE"
+    ],
+    [
+      4,
+      4,
+      0,
+      5,
+      0,
+      "VIDEO"
     ]
   ],
-  "groups": [
-    {
-      "bounding": [
-        0,
-        150,
-        1300,
-        350
-      ],
-      "color": "#3f789e",
-      "title": "Stage 1+2: Enhance \u2192 Generate Image"
-    },
-    {
-      "bounding": [
-        0,
-        600,
-        950,
-        500
-      ],
-      "color": "#a33",
-      "title": "Stage 3: Image \u2192 Video (NexusMind Grok)"
-    }
-  ],
+  "groups": [],
   "config": {},
   "extra": {},
-  "version": 0.4,
-  "metadata": {
-    "title": "05 - Full Pipeline: Enhance \u2192 Image \u2192 Video",
-    "description": "End-to-end: OmniRoute (Mistral) enhances concept \u2192 OmniRoute (GPT-5 Image) generates image \u2192 NexusMind (Grok Video) animates it."
-  }
+  "version": "0.4"
 }

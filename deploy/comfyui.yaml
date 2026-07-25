@@ -2,16 +2,17 @@ version: '3.8'
 
 services:
   comfyui:
-    image: heltonfraga/comfyui:v0.28.0-v13
+    image: ghcr.io/heltonfraga01/comfyui:v0.28.0-v12
     # ── chaves (HARDCODED diretamente na Spec YAML para resiliência no Portainer) ──
     # ATENÇÃO: NÃO extraia estas chaves para variáveis de ambiente na interface do Portainer (Stack Env).
     # Caso contrário, re-deploys de imagem apagarão as variáveis e quebrarão a criptografia/autenticação.
     environment:
       - COMFYUI_AUTH_ENABLED=true
       - COMFYUI_DEFAULT_USER=nexusmind
-      # Hash bcrypt para a senha 'NexusGenerative2026!'
-      - "COMFYUI_DEFAULT_PASS_HASH=$$2b$$12$$QRgFSxlS67QPl4CbQXoakOP24Fia7pnUBqlrZYvQzNHQ5nQf7BlDW"
-      - COMFYUI_API_TOKEN=zvztFnf9gNUkURYu7hYkKJlS5nFqpseSbo-jJ2q9chs
+      # Hash bcrypt para a senha — gerar com: python3 -c "import bcrypt; print(bcrypt.hashpw(b'YOUR_PASSWORD', bcrypt.gensalt(12)).decode())"
+      # $$ escape para Docker Compose (cada $ vira $$)
+      - "COMFYUI_DEFAULT_PASS_HASH=$$2b$$12$$YOUR_BCRYPT_HASH_HERE"
+      - COMFYUI_API_TOKEN=YOUR_API_TOKEN_HERE
     volumes:
       - comfyui_workspace_v5:/workspace
     networks:

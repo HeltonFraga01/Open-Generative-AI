@@ -4,14 +4,14 @@
   "nodes": [
     {
       "id": 1,
-      "type": "AICustomURL_Image",
+      "type": "ImageGeneration_AICustomURL",
       "pos": [
-        50,
-        100
+        100,
+        150
       ],
       "size": [
-        380,
-        250
+        420,
+        320
       ],
       "flags": {},
       "order": 0,
@@ -25,25 +25,36 @@
             1
           ],
           "slot_index": 0
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 1
         }
       ],
       "properties": {
-        "Node name for S&R": "AICustomURL_Image"
+        "Node name for S&R": "ImageGeneration_AICustomURL"
       },
       "widgets_values": [
-        "https://omniroute.cortexx.online/v1",
-        "gpt-5-image",
-        "[REDACTED]",
-        "a beautiful anime girl with fox ears playing guitar at night by a campfire, milky way galaxy sky, dramatic lighting",
-        "1024x1024"
-      ]
+        "https://api.nexusmind.digital/v1",
+        "sk-YOUR_NEXUSMIND_API_KEY_HERE",
+        "a cute anime girl with fox ears playing guitar at a campfire at night, milky way galaxy sky, dramatic lighting, digital art",
+        "grok-imagine-image",
+        1,
+        "1024x1024",
+        "standard",
+        "vivid",
+        "url"
+      ],
+      "title": "NexusMind Grok Image"
     },
     {
       "id": 2,
       "type": "SaveImage",
       "pos": [
-        500,
-        100
+        560,
+        150
       ],
       "size": [
         320,
@@ -64,7 +75,7 @@
         "Node name for S&R": "SaveImage"
       },
       "widgets_values": [
-        "OmniRoute_GPT5"
+        "NexusMind_Grok"
       ]
     }
   ],

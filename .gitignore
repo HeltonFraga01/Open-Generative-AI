@@ -36,3 +36,7 @@ out/
 .env
 .env.*
 !.env.example
+
+# Auth artifacts (cookies, HTML captures from curl)
+authenticated_cookies.txt
+authenticated_index.html

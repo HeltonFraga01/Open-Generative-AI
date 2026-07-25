@@ -1,111 +1,94 @@
 {
-  "last_node_id": 3,
-  "last_link_id": 2,
+  "last_node_id": 4,
+  "last_link_id": 3,
   "nodes": [
     {
       "id": 1,
-      "type": "TextGeneration_AICustomURL",
+      "type": "AICustomURL_Text",
       "pos": [
-        300,
-        300
+        50,
+        100
       ],
       "size": [
-        420,
-        320
+        350,
+        200
       ],
       "flags": {},
       "order": 0,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
-          "name": "text",
-          "type": "STRING",
+          "name": "TEXT",
+          "type": "TEXT",
           "links": [
-            1,
-            2
-          ]
-        },
-        {
-          "name": "full_response",
-          "type": "STRING",
-          "links": null
+            1
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "TextGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Text"
       },
       "widgets_values": [
         "https://omniroute.cortexx.online/v1",
-        "OMNIROUTE_API_KEY_HERE",
-        "mistral/mistral-large-latest",
-        "Transform this simple idea into a detailed, rich prompt for AI image generation. Include art style, lighting, mood, composition, camera angle, color palette.\n\nIdea: a girl walking her robot dog in a futuristic city",
-        0.7,
-        1024
-      ],
-      "title": "OmniRoute \u2014 Mistral Large (Enhancer)"
+        "gpt-5-chat",
+        "[REDACTED]",
+        "You are a prompt enhancer. Take the user's idea and expand it into a detailed, vivid prompt for image generation.",
+        "a girl playing guitar at night by a campfire"
+      ]
     },
     {
       "id": 2,
-      "type": "TextGeneration_AICustomURL",
+      "type": "AICustomURL_Text",
       "pos": [
-        800,
-        200
+        450,
+        100
       ],
       "size": [
-        420,
-        280
+        350,
+        200
       ],
       "flags": {},
       "order": 1,
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": null
+          "name": "text",
+          "type": "TEXT",
+          "link": 1
         }
       ],
       "outputs": [
         {
-          "name": "text",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "full_response",
-          "type": "STRING",
-          "links": null
+          "name": "TEXT",
+          "type": "TEXT",
+          "links": [
+            2
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "TextGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Text"
       },
       "widgets_values": [
         "https://api.nexusmind.digital/v1",
-        "NEXUSMIND_API_KEY_HERE",
-        "grok-4.5",
-        "Write a short story (3 paragraphs) based on this image prompt:",
-        0.8,
-        512
-      ],
-      "title": "NexusMind \u2014 Grok 4.5 (Story)"
+        "grok-4-0709-chat",
+        "[REDACTED]",
+        "Refine this prompt for maximum visual impact. Add style, lighting, mood, and composition details.",
+        ""
+      ]
     },
     {
       "id": 3,
-      "type": "TextGeneration_AICustomURL",
+      "type": "AICustomURL_Text",
       "pos": [
-        800,
-        550
+        850,
+        100
       ],
       "size": [
-        420,
+        350,
         200
       ],
       "flags": {},
@@ -113,35 +96,58 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": null
+          "name": "text",
+          "type": "TEXT",
+          "link": 2
         }
       ],
       "outputs": [
         {
-          "name": "text",
-          "type": "STRING",
-          "links": null
-        },
-        {
-          "name": "full_response",
-          "type": "STRING",
-          "links": null
+          "name": "TEXT",
+          "type": "TEXT",
+          "links": [
+            3
+          ],
+          "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "TextGeneration_AICustomURL"
+        "Node name for S&R": "AICustomURL_Text"
       },
       "widgets_values": [
         "https://omniroute.cortexx.online/v1",
-        "OMNIROUTE_API_KEY_HERE",
-        "agy/claude-sonnet-4-6",
-        "Analyze this prompt from a technical perspective. Rate it 1-10 and suggest improvements.",
-        0.3,
-        256
+        "gpt-5-chat",
+        "[REDACTED]",
+        "Output ONLY the final enhanced prompt, nothing else.",
+        ""
+      ]
+    },
+    {
+      "id": 4,
+      "type": "ShowText",
+      "pos": [
+        1250,
+        100
       ],
-      "title": "OmniRoute \u2014 Claude Sonnet (Critic)"
+      "size": [
+        300,
+        150
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "TEXT",
+          "link": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "ShowText"
+      },
+      "widgets_values": []
     }
   ],
   "links": [
@@ -151,34 +157,27 @@
       0,
       2,
       0,
-      "STRING"
+      "TEXT"
     ],
     [
       2,
-      1,
+      2,
       0,
       3,
       0,
-      "STRING"
+      "TEXT"
+    ],
+    [
+      3,
+      3,
+      0,
+      4,
+      0,
+      "TEXT"
     ]
   ],
-  "groups": [
-    {
-      "bounding": [
-        250,
-        150,
-        1000,
-        700
-      ],
-      "color": "#3f789e",
-      "title": "Prompt Enhancement Pipeline: OmniRoute (enhance) \u2192 NexusMind (story) + OmniRoute (critic)"
-    }
-  ],
+  "groups": [],
   "config": {},
   "extra": {},
-  "version": 0.4,
-  "metadata": {
-    "title": "01 - Chat Pipeline: Enhance + Story + Critic",
-    "description": "OmniRoute (Mistral Large) enhances a prompt \u2192 feeds to NexusMind (Grok 4.5) for story + OmniRoute (Claude) for critique. All via /v1/chat/completions."
-  }
+  "version": "0.4"
 }

@@ -4,32 +4,35 @@
 > **LEITURA OBRIGATÓRIA PARA AGENTES DE IA E DESENVOLVEDORES:** Antes de realizar qualquer modificação ou atualização de pacotes neste repositório, leia atentamente as regras críticas listadas em [COMFYUI_RULES.md](file:///Users/heltonfraga/Documents/Develop/Open-Generative-AI/COMFYUI_RULES.md) para evitar regressão de layout e erros de compilação.
 
 > Documentação técnica completa para manutenção e operação.
-> Última atualização: 2026-07-24
-> Status: **Funcionando localmente e em produção** (verificado com HTTP 200 + login + Bearer token)
+> Última atualização: 2026-07-25
+> Status: **Funcionando em produção** (HTTP 200, login nativo, 847 nodes, geração de imagem via NexusMind Grok confirmada)
 
 ---
 
 ## 📋 Visão Geral
 
-ComfyUI rodando como **orquestrador visual de workflows** que chamam APIs externas (Gemini, OmniRoute, Fal, etc.) via custom nodes. **Sem inferência local** — roda em modo `--cpu`. Auth nativa com usuário/senha via middleware injetado no build (sem Cloudflare/Traefik basicauth).
+ComfyUI rodando como **orquestrador visual de workflows** que chamam APIs externas (OmniRoute, NexusMind/Grok) via custom nodes. **100% API — sem inferência local**, roda em modo `--cpu` no Hetzner. Auth nativa com usuário/senha via middleware aiohttp injetado no build (sem Cloudflare/Traefik basicauth). Deploy via GHCR privado + Portainer Swarm.
 
 | Componente | Versão | Repo |
 |---|---|---|
-| ComfyUI (core) | `v0.28.0` | `comfyanonymous/ComfyUI` |
-| ComfyUI-Manager | `4.2.2` | `Comfy-Org/ComfyUI-Manager` |
-| ComfyUI Frontend | `v1.48.4` | `Comfy-Org/ComfyUI_frontend` |
-| PyTorch | `2.5.1+cpu` | — |
+| ComfyUI (core) | `master` (v0.28.0) | `comfyanonymous/ComfyUI` |
+| ComfyUI-Manager | `4.2.2` (pip install) | `Comfy-Org/ComfyUI-Manager` |
+| ComfyUI Frontend | `v1.48.4` (pre-baked) | `Comfy-Org/ComfyUI_frontend` |
+| PyTorch | `2.5.1+cpu` (pinned) | — |
 | Python | `3.11-slim` | `public.ecr.aws/docker/library/python` |
-| Imagem Docker | `heltonfraga/comfyui:v0.28.0-v5` | Docker Hub |
+| Imagem Docker | `ghcr.io/heltonfraga01/comfyui:v0.28.0-v12` | GHCR privado |
 | Stack Portainer | ID `452` (`cortexx-comfyui`) | — |
+| Nodes totais | 847 (29 de API externa) | — |
 
 ### Custom Nodes (instalados no build)
 
-| Node | Repo | Função |
-|---|---|---|
-| ComfyUI-AI-CustomURL | `bowtiedbluefin/ComfyUI-AI-CustomURL` | Texto, **imagem**, **vídeo**, **speech** — qualquer endpoint OpenAI-compatible com custom URL |
-| comfyui-openai-llm | `godmt/comfyui-openai-llm` | MCP tools, image input, leve |
-| ComfyUI-YALLM-node | `asaddi/ComfyUI-YALLM-node` | Multi-modal, OpenAI-like APIs local/remoto |
+| Node | Repo | Função | Nodes fornecidos |
+|---|---|---|---|
+| `ComfyUI-AI-CustomURL` | `bowtiedbluefin/ComfyUI-AI-CustomURL` | Texto, **imagem**, **vídeo**, **speech** — qualquer endpoint OpenAI-compatible com custom URL | 13 nodes (`TextGeneration_AICustomURL`, `ImageGeneration_AICustomURL`, `VideoGeneration_AICustomURL`, etc.) |
+| `comfyui-openai-llm` | `godmt/comfyui-openai-llm` | MCP tools, image input, leve | 9 nodes |
+| `ComfyUI-YALLM-node` | `asaddi/ComfyUI-YALLM-node` | Multi-modal, OpenAI-like APIs local/remoto | 1 node |
+
+> **Total: 29 nodes de API externa** (13 AICustomURL + 9 OpenAI-LLM + 1 YALLM + 6 MCP). Estes nodes aceitam `base_url` + `api_key` como inputs — aponte para OmniRoute ou NexusMind.
 
 ### Backend de Inferência (gateways conectáveis)
 
@@ -118,13 +121,15 @@ python /app/ComfyUI/main.py \
     --enable-cors-header \
     --enable-compress-response-body \
     --max-upload-size 100 \
-    --front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4 \
+    --front-end-root /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/1.48.4 \
     --output-directory /workspace/output \
     --input-directory /workspace/input \
     --user-directory /workspace/user \
     --models-directory /workspace/models \
     --temp-directory /workspace/temp
 ```
+
+> **Pre-baked frontend:** O frontend v1.48.4 é copiado no build (`COPY web_custom/1.48.4/`) e servido via `--front-end-root`. NUNCA usar `--front-end-version` (download runtime) — pode falhar por GitHub API rate limit e servir versão errada.
 
 ---
 
@@ -206,10 +211,18 @@ O `comfyui-mcp` (npm `comfyui-mcp@0.46.0`) envia `Authorization: Bearer <token>`
 
 ```bash
 cd ~/Documents/Develop/Open-Generative-AI
-docker buildx build --platform linux/amd64 -t heltonfraga/comfyui:v0.28.0-v5 -f Dockerfile --push .
+
+# Prune obrigatório antes de cada build (Mac arm64 → linux/amd64 via QEMU)
+docker buildx prune --all --force
+
+# Build + push para GHCR (privado, sem rate limit)
+docker buildx build --platform linux/amd64 \
+  -t ghcr.io/heltonfraga01/comfyui:v0.28.0-v12 \
+  -f Dockerfile --push .
 ```
 
-> ⚠️ Docker Hub rate limit (429) é comum. Se falhar, aguardar 3-5 min e retentar. O push das layers geralmente completa mesmo com erro 429 no pull (rate limit é por IP, não por push).
+> **GHCR privado** (GitHub Container Registry) — sem rate limit do Docker Hub. Requer classic PAT com scope `write:packages`. Registry auth configurada no Portainer (ID 2, Type 3).
+> **Build Mac arm64 → linux/amd64:** ~7-12min via QEMU. Sempre `docker buildx prune` antes para evitar `No space left on device`.
 
 ### Redeploy via Portainer API
 
@@ -283,17 +296,35 @@ Para atualizar ComfyUI, Manager ou Frontend:
    - https://github.com/Comfy-Org/ComfyUI_frontend/releases
 
 2. **Atualizar Dockerfile:**
-   - Linha 17: `--branch v0.28.0` → nova tag
-   - Linha 20: `--branch 4.2.2` → nova tag
-   - Linha 46 (entrypoint.sh): `--front-end-version Comfy-Org/ComfyUI_frontend@v1.48.4` → nova tag
+   - `git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git` (mantém master)
+   - `git clone --branch 4.2.2` → nova tag do Manager
+   - `COPY web_custom/1.48.4/` → baixar nova versão do frontend zip, extrair para `web_custom/<nova_versao>/`
 
-3. **Verificar se Manager mudou estrutura:**
+3. **Atualizar entrypoint.sh:**
+   - `--front-end-root /app/ComfyUI/web_custom_versions/Comfy-Org_ComfyUI_frontend/<nova_versao>`
+
+4. **⚠️ NUNCA usar `--front-end-version` (runtime download)** — usa `--front-end-root` (pre-baked). Download runtime pode falhar por GitHub API rate limit.
+
+5. **Verificar se Manager mudou estrutura:**
    - Tag 4.2.2 não tem `__init__.py` na raiz (precisa `pip install`)
    - Se voltar a ter `__init__.py`, remover o `pip install` e manter só `git clone` + `cp`
 
-4. **Atualizar tag da imagem:** `heltonfraga/comfyui:v0.28.0-v5` → `v0.28.0-v6` (ou nova versão)
+6. **Atualizar tag da imagem:** `ghcr.io/heltonfraga01/comfyui:v0.28.0-v12` → `v0.28.0-v13` (ou nova versão)
 
-5. **Build → Push → Deploy → Testar os 3 endpoints**
+7. **Prune → Build → Push → Deploy → Testar os 3 endpoints**
+
+> **⚠️ REGRA CRÍTICA:** O frontend é **pre-baked** no Dockerfile (`COPY web_custom/1.48.4/`). Para mudar a versão, baixe o zip da nova release, extraia para `web_custom/<nova_versao>/`, atualize o `COPY` no Dockerfile e o `--front-end-root` no entrypoint. NUNCA use `@latest` ou `v1.48.5` (bug `graph accessed before initialization`).
+
+### 🧹 Cache do Browser (Checklist de Troubleshooting)
+
+Se o frontend não renderiza em produção mas funciona localmente:
+
+1. **Hard refresh (Cmd+Shift+R)** — às vezes resolve cache de JS/CSS
+2. **Limpar dados do site (DevTools → Application → Storage → Clear site data)** — remove localStorage + indexedDB stale do Vue
+3. **Testar em DuckDuckGo ou incognito** — se funcionar, é cache do browser com certeza
+4. **NÃO culpar Cloudflare** — `cf-cache-status: BYPASS` confirma que não é CDN
+
+> O ComfyUI Vue 3 frontend guarda estado no localStorage + indexedDB. Versões antigas do frontend podem deixar state stale que causa `graph accessed before initialization` mesmo com a versão correta (v1.48.4). Limpar tudo resolve.
 
 ---
 
@@ -372,6 +403,20 @@ NexusMind (Grok Video) → video from image
 ```
 
 Pipeline completo: um LLM do OmniRoute transforma um conceito simples em um prompt visual rico → gera imagem → envia a imagem para o Grok animar em vídeo.
+
+---
+
+### 07 — NexusMind Grok Image (Simples)
+
+`workflows/07_nexusmind_grok_image_simple.json`
+
+```
+NexusMind (grok-imagine-image) → SaveImage
+```
+
+Workflow mais simples — 2 nodes. Gera imagem via Grok Imagine da NexusMind. **Verificado end-to-end 2026-07-24** (imagem `NexusMind_Grok_00001_.png`, 1.4MB, ~15s de geração).
+
+**Importante:** O workflow 06 (Flux Schnell local) foi removido — o servidor agora é 100% API. Ver seção "Modo de Operação" abaixo.
 
 ---
 
