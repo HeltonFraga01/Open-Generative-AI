@@ -64,6 +64,9 @@ RUN git clone --depth 1 https://github.com/godmt/comfyui-openai-llm.git /app/Com
 RUN git clone --depth 1 https://github.com/asaddi/ComfyUI-YALLM-node.git /app/ComfyUI/custom_nodes/ComfyUI-YALLM-node && \
     cd /app/ComfyUI/custom_nodes/ComfyUI-YALLM-node && pip install --no-cache-dir -r requirements.txt || true
 
+# 4. ComfyUI-Gemini-Antigravity — Gemini-native image generation via NexusMind Antigravity proxy
+COPY custom_nodes/ComfyUI-Gemini-Antigravity/__init__.py /app/ComfyUI/custom_nodes/ComfyUI-Gemini-Antigravity/__init__.py
+
 # Re-snapshot custom_nodes to include the new nodes for volume init
 # Use /. to copy CONTENTS (not the dir itself) — avoids custom_nodes/custom_nodes/ bug
 RUN rm -rf /app/ComfyUI/custom_nodes_default && \
