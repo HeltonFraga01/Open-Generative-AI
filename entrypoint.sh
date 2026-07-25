@@ -68,6 +68,7 @@ exec python /app/ComfyUI/main.py \
     --port 8188 \
     --cpu \
     --enable-manager \
+    --enable-assets \
     --enable-cors-header \
     --enable-compress-response-body \
     --max-upload-size 100 \
