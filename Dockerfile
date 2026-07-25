@@ -76,8 +76,9 @@ RUN rm -rf /app/ComfyUI/custom_nodes_default && \
     mkdir -p /app/ComfyUI/custom_nodes_default && \
     cp -r /app/ComfyUI/custom_nodes/. /app/ComfyUI/custom_nodes_default/
 
-# Copy entrypoint script
+# Copy entrypoint script and Manager config
 COPY entrypoint.sh /entrypoint.sh
+COPY config/manager_config.ini /tmp/manager_config.ini
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8188
