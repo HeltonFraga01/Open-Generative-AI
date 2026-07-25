@@ -88,6 +88,83 @@ if [ -d /workspace/custom_nodes/llm-toolkit ]; then
     pip install --no-cache-dir google-genai 2>/dev/null || true
 fi
 
+# Patch: add video dimensions enrichment to ComfyUI assets system
+# The stock asset enrichment only sets kind=image for image/* MIME types.
+# This patch adds kind=video for video/* MIME types using ffprobe.
+if [ ! -f /app/ComfyUI/app/assets/services/video_dimensions.py ]; then
+    echo "Installing video dimensions enrichment patch..."
+    cat > /app/ComfyUI/app/assets/services/video_dimensions.py << 'VD_EOF'
+"""Video dimension and metadata extraction for asset ingest."""
+from __future__ import annotations
+import json, logging, shutil, subprocess
+from typing import Any
+logger = logging.getLogger(__name__)
+def extract_video_dimensions(file_path, mime_type=None):
+    if mime_type is not None and not mime_type.startswith("video/"):
+        return None
+    ffprobe = shutil.which("ffprobe")
+    if not ffprobe:
+        return None
+    try:
+        result = subprocess.run([ffprobe, "-v", "quiet", "-print_format", "json", "-show_streams", "-show_format", file_path], capture_output=True, timeout=10)
+        if result.returncode != 0:
+            return None
+        data = json.loads(result.stdout)
+    except Exception:
+        return None
+    vs = None
+    for s in data.get("streams", []):
+        if s.get("codec_type") == "video":
+            vs = s; break
+    if not vs:
+        return None
+    w, h = int(vs.get("width", 0)), int(vs.get("height", 0))
+    if w <= 0 or h <= 0:
+        return None
+    dur = None
+    ds = data.get("format", {}).get("duration") or vs.get("duration")
+    if ds:
+        try: dur = round(float(ds), 2)
+        except: pass
+    meta = {"kind": "video", "width": w, "height": h}
+    if dur is not None: meta["duration"] = dur
+    return meta
+VD_EOF
+
+    # Patch ingest.py to import and use video_dimensions
+    if ! grep -q 'video_dimensions' /app/ComfyUI/app/assets/services/ingest.py; then
+        sed -i '/from app.assets.services.image_dimensions import extract_image_dimensions/a from app.assets.services.video_dimensions import extract_video_dimensions' /app/ComfyUI/app/assets/services/ingest.py
+    fi
+
+    # Replace the image-only check with image+video check
+    sed -i 's/if not mime_type or not mime_type.startswith("image\/"):/if not mime_type:/' /app/ComfyUI/app/assets/services/ingest.py
+    sed -i 's/dims = extract_image_dimensions(file_path, mime_type=mime_type)/dims = extract_image_dimensions(file_path, mime_type=mime_type) if mime_type.startswith("image\/") else extract_video_dimensions(file_path, mime_type=mime_type)/' /app/ComfyUI/app/assets/services/ingest.py
+fi
+
+# Re-enrich existing MP4s in the DB (in case they were registered before the patch)
+if [ -f /workspace/user/comfyui.db ] && [ -f /app/ComfyUI/app/assets/services/video_dimensions.py ]; then
+    python3 -c "
+import sqlite3, json, glob, os, sys
+sys.path.insert(0, '/app/ComfyUI')
+try:
+    from app.assets.services.video_dimensions import extract_video_dimensions
+    conn = sqlite3.connect('/workspace/user/comfyui.db')
+    c = conn.cursor()
+    rows = c.execute(\"SELECT id, file_path, system_metadata FROM asset_references WHERE name LIKE '%.mp4'\").fetchall()
+    for ref_id, fp, sm in rows:
+        dims = extract_video_dimensions(fp, mime_type='video/mp4')
+        if dims:
+            current = json.loads(sm) if sm else {}
+            if current.get('kind') != 'video':
+                current.update(dims)
+                c.execute('UPDATE asset_references SET system_metadata=?, enrichment_level=2 WHERE id=?', (json.dumps(current), ref_id))
+    conn.commit()
+    conn.close()
+except Exception:
+    pass
+" 2>/dev/null || true
+fi
+
 # Run ComfyUI with server optimization flags (no --multi-user — single user only)
 exec python /app/ComfyUI/main.py \
     --listen 0.0.0.0 \
