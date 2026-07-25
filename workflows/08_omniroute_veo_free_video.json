@@ -1,0 +1,177 @@
+{
+  "last_node_id": 3,
+  "last_link_id": 2,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "VideoGeneration_AICustomURL",
+      "pos": [
+        80,
+        200
+      ],
+      "size": [
+        420,
+        340
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "video_url",
+          "type": "STRING",
+          "links": [
+            1,
+            2
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "video_id",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 1
+        },
+        {
+          "name": "api_key",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 2
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 3
+        },
+        {
+          "name": "response_json",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 4
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VideoGeneration_AICustomURL"
+      },
+      "widgets_values": [
+        "https://omniroute.cortexx.online/v1",
+        "omni_73005d33419fabad0ddc349bf0dde99ddfd03c747c55e0d40d7f226f6bbc40",
+        "veo-free/veo",
+        "A cute cat wearing boots walking through a fairy tale forest, cinematic lighting, vibrant colors, whimsical atmosphere",
+        "720p",
+        5,
+        24,
+        "16:9",
+        "true",
+        5,
+        600
+      ],
+      "title": "OmniRoute Veo Free (Video)"
+    },
+    {
+      "id": 2,
+      "type": "SaveVideo_AICustomURL",
+      "pos": [
+        560,
+        200
+      ],
+      "size": [
+        320,
+        120
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video_url",
+          "type": "STRING",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "filepath",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 0
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo_AICustomURL"
+      },
+      "widgets_values": [
+        "veo_free_video",
+        "output/videos"
+      ],
+      "title": "Salvar V\u00eddeo"
+    },
+    {
+      "id": 3,
+      "type": "VideoPreview_AICustomURL",
+      "pos": [
+        560,
+        380
+      ],
+      "size": [
+        320,
+        100
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "filepath",
+          "type": "STRING",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "filepath",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VideoPreview_AICustomURL"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Preview V\u00eddeo"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "STRING"
+    ],
+    [
+      2,
+      1,
+      0,
+      3,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": "0.4"
+}
