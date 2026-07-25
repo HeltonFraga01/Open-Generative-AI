@@ -13,6 +13,12 @@ services:
       # $$ escape para Docker Compose (cada $ vira $$)
       - "COMFYUI_DEFAULT_PASS_HASH=$$2b$$12$$YOUR_BCRYPT_HASH_HERE"
       - COMFYUI_API_TOKEN=YOUR_API_TOKEN_HERE
+      # MinIO S3 for NexusVideo image-to-video uploads (image must be publicly accessible)
+      - MINIO_ENDPOINT=s3.fragaai.com.br
+      - MINIO_ACCESS_KEY=ZwIJv7DO2QV8hp51
+      - MINIO_SECRET_KEY=l7YKI7ptNxqWCm1KV
+      - MINIO_BUCKET=comfyui-images
+      - MINIO_SECURE=true
     volumes:
       - comfyui_workspace_v5:/workspace
     networks:

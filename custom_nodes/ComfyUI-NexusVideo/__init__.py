@@ -9,9 +9,16 @@ API flow:
   2. GET /v1/videos/{request_id} → {"status": "done", "video": {"url": "/v1/videos/{id}/content"}}
   3. GET /v1/videos/{request_id}/content → video/mp4 binary
 
+Image-to-video (I2V):
+  - xAI expects "image": {"url": "https://..."} (public HTTP URL)
+  - Data URLs and "image_url" string field are silently ignored
+  - This node uploads the ComfyUI image tensor to MinIO (S3) and uses the
+    public URL. Requires MINIO_ENDPOINT, MINIO_ACCESS_KEY, MINIO_SECRET_KEY
+    environment variables. Bucket defaults to "comfyui-images" (public-read).
+
 Models:
   - grok-imagine-video (text-to-video, 8s)
-  - grok-imagine-video-1.5 (image-to-video, 5s, accepts image_url/first_frame_image/input_image)
+  - grok-imagine-video-1.5 (image-to-video, 5s, accepts image {"url": "..."})
 """
 
 import io
@@ -94,16 +101,43 @@ class NexusVideoNode:
     FUNCTION = "generate"
     CATEGORY = "NexusMind"
 
-    def _api_request(self, base_url, api_key, method, path, data=None, timeout=30):
+    def _api_request(self, base_url, api_key, method, path, data=None, timeout=30, multipart_fields=None, files=None):
         url = f"{base_url.rstrip('/')}{path}"
-        if data is not None:
+        if files:
+            # Multipart form-data upload
+            import uuid
+            boundary = f"----WebKitFormBoundary{uuid.uuid4().hex[:16]}"
+            body_parts = []
+            # Add regular fields
+            for key, value in (multipart_fields or {}).items():
+                body_parts.append(f"--{boundary}\r\n".encode())
+                body_parts.append(f'Content-Disposition: form-data; name="{key}"\r\n\r\n'.encode())
+                body_parts.append(f"{value}\r\n".encode())
+            # Add file fields
+            for field_name, (filename, file_data, content_type) in files.items():
+                body_parts.append(f"--{boundary}\r\n".encode())
+                body_parts.append(
+                    f'Content-Disposition: form-data; name="{field_name}"; filename="{filename}"\r\n'.encode()
+                )
+                body_parts.append(f"Content-Type: {content_type}\r\n\r\n".encode())
+                body_parts.append(file_data)
+                body_parts.append(b"\r\n")
+            body_parts.append(f"--{boundary}--\r\n".encode())
+            body = b"".join(body_parts)
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": f"multipart/form-data; boundary={boundary}",
+            }
+        elif data is not None:
             body = json.dumps(data).encode()
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            }
         else:
             body = None
-        req = urllib.request.Request(url, data=body, method=method, headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        })
+            headers = {"Authorization": f"Bearer {api_key}"}
+        req = urllib.request.Request(url, data=body, method=method, headers=headers)
         try:
             resp = urllib.request.urlopen(req, timeout=timeout)
             return json.loads(resp.read())
@@ -111,43 +145,98 @@ class NexusVideoNode:
             error_msg = e.read().decode()
             raise RuntimeError(f"API Error {e.code}: {error_msg}")
 
-    def _image_to_url(self, image_tensor):
-        """Convert ComfyUI IMAGE tensor to a data URL for the API."""
+    def _image_to_bytes(self, image_tensor):
+        """Convert ComfyUI IMAGE tensor to JPEG bytes."""
         import numpy as np
         from PIL import Image
-        import base64
+        import io
 
-        # image_tensor shape: [B, H, W, C] or [H, W, C]
         if len(image_tensor.shape) == 4:
             img_np = image_tensor[0].cpu().numpy()
         else:
             img_np = image_tensor.cpu().numpy()
-        
         img_np = (img_np * 255).clip(0, 255).astype(np.uint8)
         img = Image.fromarray(img_np)
-        
         buf = io.BytesIO()
-        img.save(buf, format='JPEG', quality=85)
-        b64 = base64.b64encode(buf.getvalue()).decode()
-        return f"data:image/jpeg;base64,{b64}"
+        img.save(buf, format='JPEG', quality=90)
+        return buf.getvalue()
+
+    def _upload_to_minio(self, img_bytes, filename="comfyui_input.jpg"):
+        """Upload image to MinIO and return a public URL.
+        
+        MinIO credentials are read from environment variables:
+        MINIO_ENDPOINT, MINIO_ACCESS_KEY, MINIO_SECRET_KEY
+        Falls back to no upload if MinIO is not configured.
+        """
+        import os
+        import hashlib
+        import time
+
+        endpoint = os.environ.get("MINIO_ENDPOINT", "")
+        access_key = os.environ.get("MINIO_ACCESS_KEY", "")
+        secret_key = os.environ.get("MINIO_SECRET_KEY", "")
+        bucket = os.environ.get("MINIO_BUCKET", "comfyui-images")
+        secure = os.environ.get("MINIO_SECURE", "true").lower() == "true"
+
+        if not all([endpoint, access_key, secret_key]):
+            raise RuntimeError("MinIO not configured (need MINIO_ENDPOINT, MINIO_ACCESS_KEY, MINIO_SECRET_KEY)")
+
+        from minio import Minio
+        from io import BytesIO
+
+        client = Minio(endpoint, access_key=access_key, secret_key=secret_key, secure=secure)
+
+        # Ensure bucket exists
+        if not client.bucket_exists(bucket):
+            client.make_bucket(bucket)
+            import json
+            policy = {
+                "Version": "2012-10-17",
+                "Statement": [{
+                    "Effect": "Allow",
+                    "Principal": {"AWS": ["*"]},
+                    "Action": ["s3:GetObject"],
+                    "Resource": [f"arn:aws:s3:::{bucket}/*"]
+                }]
+            }
+            client.set_bucket_policy(bucket, json.dumps(policy))
+
+        # Generate unique object name
+        content_hash = hashlib.md5(img_bytes).hexdigest()[:12]
+        object_name = f"comfyui_{int(time.time())}_{content_hash}.jpg"
+
+        buf = BytesIO(img_bytes)
+        client.put_object(bucket, object_name, buf, len(img_bytes), content_type="image/jpeg")
+
+        scheme = "https" if secure else "http"
+        return f"{scheme}://{endpoint}/{bucket}/{object_name}"
 
     def generate(self, base_url, api_key, model, prompt, resolution, duration,
                  auto_poll, poll_interval, max_wait_time,
                  image=None, image_url=""):
-        # Build request payload — only model and prompt are required by xAI
-        # resolution/duration cause 422 upstream errors, so we omit them
+        # xAI/Grok video generation API:
+        # - image-to-video: JSON body with "image": {"url": "https://..."} (public URL)
+        # - text-to-video: JSON body with "model" and "prompt" only
+        # Data URLs and "image_url" (string) are silently ignored — the image
+        # must be a publicly accessible HTTP(S) URL.
+
         payload = {
             "model": model,
             "prompt": prompt,
             "n": 1,
         }
 
-        # Add image if provided (image-to-video)
         if image is not None:
-            data_url = self._image_to_url(image)
-            payload["image_url"] = data_url
+            # Image-to-video: upload to MinIO, get public URL, send as {"image": {"url": "..."}}
+            try:
+                img_bytes = self._image_to_bytes(image)
+                public_url = self._upload_to_minio(img_bytes)
+                payload["image"] = {"url": public_url}
+            except Exception as e:
+                return ("", "", f"Image upload failed: {e}", "{}")
         elif image_url and image_url.strip():
-            payload["image_url"] = image_url.strip()
+            # User provided a public image URL directly
+            payload["image"] = {"url": image_url.strip()}
 
         # Step 1: Submit video generation request
         try:

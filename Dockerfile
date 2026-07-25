@@ -38,6 +38,9 @@ RUN pip install --no-cache-dir transformers==4.57.3 "huggingface_hub>=0.34.0,<1.
 # Install bcrypt for auth
 RUN pip install --no-cache-dir bcrypt
 
+# Install minio SDK for NexusVideo image-to-video uploads
+RUN pip install --no-cache-dir minio
+
 # Copy auth files
 COPY auth/ /app/ComfyUI/auth/
 

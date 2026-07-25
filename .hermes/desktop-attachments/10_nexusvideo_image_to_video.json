@@ -1,0 +1,59 @@
+{
+  "1": {
+    "inputs": {
+      "image": "clipspace-painted-masked-1784960055501.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Carregar Imagem"
+    }
+  },
+  "2": {
+    "inputs": {
+      "base_url": "https://api.nexusmind.digital/v1",
+      "api_key": "sk-440cead750d9a0dc76831d5c9903f192fdb778c788c58a2ece6f249bfb9b77f8",
+      "model": "grok-imagine-video-1.5",
+      "prompt": "uma dança sexy ",
+      "resolution": "720p",
+      "duration": "5",
+      "auto_poll": true,
+      "poll_interval": 5,
+      "max_wait_time": 300,
+      "image_url": "",
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "NexusVideo",
+    "_meta": {
+      "title": "NexusVideo (NexusMind Grok)"
+    }
+  },
+  "3": {
+    "inputs": {
+      "filename_prefix": "nexusvideo_i2v_status",
+      "format": "txt",
+      "text": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "SaveText",
+    "_meta": {
+      "title": "Salvar Texto"
+    }
+  },
+  "4": {
+    "inputs": {
+      "video_path": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "PreviewVideo",
+    "_meta": {
+      "title": "Preview Video Form Path (🔗LLMToolkit)"
+    }
+  }
+}
