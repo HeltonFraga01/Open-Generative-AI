@@ -505,6 +505,7 @@ Ao adicionar novos custom nodes no Dockerfile, o entrypoint só copia defaults s
 | [0002](docs/adr/0002-minio-s3-image-hosting.md) | MinIO S3 como intermediário de upload para image-to-video |
 | [0003](docs/adr/0003-no-resolution-duration-in-payload.md) | `resolution` e `duration` não enviados à API xAI (causam 422) |
 | [0004](docs/adr/0004-entrypoint-runtime-deps.md) | Entrypoint instala deps de custom nodes em runtime |
+| [0005](docs/adr/0005-video-enrichment-ffprobe.md) | Patch de enriquecimento de vídeo (kind=video) via ffprobe |
 
 ---
 
@@ -512,6 +513,7 @@ Ao adicionar novos custom nodes no Dockerfile, o entrypoint só copia defaults s
 
 | Data | Versão | Mudança |
 |---|---|---|
+| 2026-07-25 | v0.28.0-v16 | Patch: enriquecimento de vídeo com ffprobe (`kind=video`, width/height/duration). MP4s agora aparecem na aba Arquivos e Mídia |
 | 2026-07-25 | v0.28.0-v15 | `pip install minio` + `google-genai` no entrypoint. NexusVideo i2v via MinIO. Deploy ← imagem v15 |
 | 2026-07-25 | v0.28.0-v14 | `pip install minio` no Dockerfile para NexusVideo i2v |
 | 2026-07-24 | v0.28.0-v13 | Custom nodes `ComfyUI-Gemini-Antigravity` + `ComfyUI-NexusVideo` adicionados |
