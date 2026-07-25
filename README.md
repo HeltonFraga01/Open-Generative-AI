@@ -5,7 +5,7 @@
 
 > Documentação técnica completa para manutenção e operação.
 > Última atualização: 2026-07-25
-> Status: **Funcionando em produção** (HTTP 200, login nativo, 847 nodes, geração de imagem via NexusMind Grok confirmada)
+> Status: **Funcionando em produção** (HTTP 200, v0.28.0-v15, login nativo, 847+ nodes, image-to-video via MinIO confirmado)
 
 ---
 
@@ -20,9 +20,8 @@ ComfyUI rodando como **orquestrador visual de workflows** que chamam APIs extern
 | ComfyUI Frontend | `v1.48.4` (pre-baked) | `Comfy-Org/ComfyUI_frontend` |
 | PyTorch | `2.5.1+cpu` (pinned) | — |
 | Python | `3.11-slim` | `public.ecr.aws/docker/library/python` |
-| Imagem Docker | `ghcr.io/heltonfraga01/comfyui:v0.28.0-v12` | GHCR privado |
-| Stack Portainer | ID `452` (`cortexx-comfyui`) | — |
-| Nodes totais | 847 (29 de API externa) | — |
+| Imagem Docker | `ghcr.io/heltonfraga01/comfyui:v0.28.0-v15` | GHCR privado |
+| MinIO S3 | `s3.fragaai.com.br` (bucket `comfyui-images`) | Para uploads de image-to-video |
 
 ### Custom Nodes (instalados no build)
 
@@ -31,6 +30,8 @@ ComfyUI rodando como **orquestrador visual de workflows** que chamam APIs extern
 | `ComfyUI-AI-CustomURL` | `bowtiedbluefin/ComfyUI-AI-CustomURL` | Texto, **imagem**, **vídeo**, **speech** — qualquer endpoint OpenAI-compatible com custom URL | 13 nodes (`TextGeneration_AICustomURL`, `ImageGeneration_AICustomURL`, `VideoGeneration_AICustomURL`, etc.) |
 | `comfyui-openai-llm` | `godmt/comfyui-openai-llm` | MCP tools, image input, leve | 9 nodes |
 | `ComfyUI-YALLM-node` | `asaddi/ComfyUI-YALLM-node` | Multi-modal, OpenAI-like APIs local/remoto | 1 node |
+| `ComfyUI-Gemini-Antigravity` | Custom (neste repo) | Geração de imagem via Gemini Antigravity (NexusMind proxy) | 1 node (`GeminiAntigravityImage`) |
+| `ComfyUI-NexusVideo` | Custom (neste repo) | Geração de vídeo text-to-video e image-to-video via NexusMind sub2api (Grok) | 1 node (`NexusVideo`) |
 
 > **Total: 29 nodes de API externa** (13 AICustomURL + 9 OpenAI-LLM + 1 YALLM + 6 MCP). Estes nodes aceitam `base_url` + `api_key` como inputs — aponte para OmniRoute ou NexusMind.
 
@@ -420,6 +421,44 @@ Workflow mais simples — 2 nodes. Gera imagem via Grok Imagine da NexusMind. **
 
 ---
 
+### 09 — Gemini Antigravity Image
+
+`workflows/09_gemini_antigravity_image.json`
+
+```
+GeminiAntigravityImage → SaveImage
+```
+
+Gera imagem via Gemini Antigravity (proxy NexusMind). Custom node próprio (`ComfyUI-Gemini-Antigravity`). 6 modelos disponíveis. **Status:** Funciona, mas sujeito a 503 ("No available Gemini accounts") quando o pool Google do sub2api esgota.
+
+---
+
+### 10 — NexusVideo Image-to-Video ⭐
+
+`workflows/10_nexusvideo_image_to_video.json`
+
+```
+LoadImage → NexusVideo (i2v via MinIO) → SaveText (status) + PreviewVideo (video_path)
+```
+
+**Verificado end-to-end 2026-07-25.** Gera vídeo a partir de uma imagem de referência. O node faz upload da imagem para o MinIO S3, obtém URL pública, e envia `{"image":{"url":"..."}}` para a API xAI/Grok. Vídeo MP4 (~3MB, 5s) é salvo em `/workspace/output/`.
+
+> **⚠️ Documentação completa:** [docs/NEXUSVIDEO_I2V.md](docs/NEXUSVIDEO_I2V.md) — armadilhas, formato da API, troubleshooting.
+
+---
+
+### 11 — NexusVideo Text-to-Video
+
+`workflows/11_nexusvideo_text_to_video.json`
+
+```
+NexusVideo (t2v, sem LoadImage) → SaveText (status) + PreviewVideo (video_path)
+```
+
+Gera vídeo a partir de texto. Não precisa de MinIO (sem imagem para upload). **Verificado end-to-end 2026-07-25.**
+
+---
+
 ### Nodes disponíveis do ComfyUI-AI-CustomURL
 
 | Node ID | Categoria | Inputs principais | Outputs |
@@ -447,3 +486,33 @@ Ao adicionar novos custom nodes no Dockerfile, o entrypoint só copia defaults s
 - **Credenciais Portainer:** `~/.config/cortexx/secrets/portainer.env`
 - **Stack ID:** `452` (endpoint `1`)
 - **Skill Hermes:** `comfyui-swarm-deployment` em `~/.hermes/skills/`
+
+---
+
+## 📚 Documentação Técnica
+
+| Documento | Descrição |
+|---|---|
+| [COMFYUI_RULES.md](COMFYUI_RULES.md) | Regras críticas — OBRIGATÓRIO antes de qualquer modificação |
+| [docs/NEXUSVIDEO_I2V.md](docs/NEXUSVIDEO_I2V.md) | Como o image-to-video funciona (MinIO upload → xAI API → MP4) |
+| [docs/adr/](docs/adr/) | Architecture Decision Records — o *porquê* de cada decisão |
+
+### ADRs
+
+| ADR | Decisão |
+|---|---|
+| [0001](docs/adr/0001-xai-image-url-format.md) | xAI Grok video API usa `image: {"url": ...}` (objeto), não `image_url` (string) |
+| [0002](docs/adr/0002-minio-s3-image-hosting.md) | MinIO S3 como intermediário de upload para image-to-video |
+| [0003](docs/adr/0003-no-resolution-duration-in-payload.md) | `resolution` e `duration` não enviados à API xAI (causam 422) |
+| [0004](docs/adr/0004-entrypoint-runtime-deps.md) | Entrypoint instala deps de custom nodes em runtime |
+
+---
+
+## 🗂️ CHANGELOG
+
+| Data | Versão | Mudança |
+|---|---|---|
+| 2026-07-25 | v0.28.0-v15 | `pip install minio` + `google-genai` no entrypoint. NexusVideo i2v via MinIO. Deploy ← imagem v15 |
+| 2026-07-25 | v0.28.0-v14 | `pip install minio` no Dockerfile para NexusVideo i2v |
+| 2026-07-24 | v0.28.0-v13 | Custom nodes `ComfyUI-Gemini-Antigravity` + `ComfyUI-NexusVideo` adicionados |
+| 2026-07-24 | v0.28.0-v12 | Auth nativa, `--enable-assets`, Manager config persistente, 847 nodes |

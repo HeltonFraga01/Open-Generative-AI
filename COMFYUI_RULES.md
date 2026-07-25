@@ -93,4 +93,39 @@ Este repositório possui diretrizes arquiteturais estritas. **Todos os agentes d
 
 ---
 
-_Leitura complementar: A skill `comfyui-swarm-deployment` (~70 pitfalls) em `~/.hermes/skills/devops/comfyui-swarm-deployment/` documenta TODOS os detalhes técnicos, armadilhas, e procedimentos de build/deploy/debug._
+_Leitura complementar: A skill `comfyui-swarm-deployment` em `~/.hermes/skills/` documenta TODOS os detalhes técnicos, armadilhas, e procedimentos de build/deploy/debug._
+
+---
+
+## 🎥 9. NEXUSVIDEO — IMAGE-TO-VIDEO REQUER URL PÚBLICA (MinIO)
+
+* **REGRA:** O node `NexusVideo` em modo image-to-video (quando recebe um tensor `IMAGE` do `LoadImage`) precisa fazer upload da imagem para o **MinIO S3** antes de chamar a API do xAI/Grok. Data URLs e `image_url` como string **NÃO funcionam** — o xAI ignora silenciosamente e gera text-to-video puro.
+* **FORMATO CORRETO da API xAI:** `"image": {"url": "https://..."}` (objeto com `url`), **NÃO** `"image_url": "..."` (string).
+* **MINIO ENV VARS OBRIGATÓRIAS:** `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET`, `MINIO_SECURE` — injetadas via Portainer service spec (não no repo público). Sem essas vars, o node retorna erro de upload e o i2v falha (t2v ainda funciona).
+* **DETALHES TÉCNICOS COMPLETOS:** Ver `docs/NEXUSVIDEO_I2V.md` — arquitetura, API, armadilhas, troubleshooting.
+* **ADRs:** `docs/adr/0001-xai-image-url-format.md`, `docs/adr/0002-minio-s3-image-hosting.md`
+
+---
+
+## 🔗 10. PREVIEWVIDEO USA `video_path`, NÃO `filepath`
+
+* **REGRA:** O node `PreviewVideo` (do llm-toolkit) aceita apenas o input `video_path` (STRING, widget). **NUNCA** use `filepath` como nome de input — o método `preview()` não aceita esse argumento e o workflow falha com `TypeError`.
+* **MOTIVO:** Workflows salvos no IndexedDB do browser podem ter inputs fantasma (`filepath`) que não existem na definição real do node. O ComfyUI tenta passar todos os inputs como kwargs e quebra.
+* **FIX:** Nos links do workflow, conectar `NexusVideo.video_url` → `PreviewVideo.video_path`. **NUNCA** criar um input com nome `filepath` no PreviewVideo.
+
+---
+
+## 📦 11. DEPS DE CUSTOM NODES INSTALADOS EM RUNTIME
+
+* **REGRA:** Custom nodes instalados via ComfyUI-Manager em produção persistem no volume, mas suas deps Python **NÃO** estão na imagem Docker. O `entrypoint.sh` tem um bloco que instala deps conhecidas antes de iniciar o ComfyUI.
+* **MOTIVO:** Se você instalar um custom node via Manager e ele precisar de uma lib Python não-bundled, o ComfyUI falha ao carregar o node no próximo restart. O entrypoint resolve isso instalando a dep automaticamente.
+* **COMO ADICIONAR NOVA DEP:** Edite `entrypoint.sh`, adicione `pip install <dep>` dentro do bloco `if [ -d /workspace/custom_nodes/<nome> ]`, faça build nova imagem e deploy.
+* **ADRs:** `docs/adr/0004-entrypoint-runtime-deps.md`
+
+---
+
+## 🚫 12. NUNCA ENVIAR `resolution` OU `duration` À API xAI
+
+* **REGRA:** O node `NexusVideo` tem widgets `resolution` e `duration` na UI, mas eles **NÃO são enviados** no payload da API. O xAI rejeita com HTTP 422 se esses campos estiverem presentes.
+* **MOTIVO:** A docs do xAI lista esses campos como opcionais, mas o upstream do NexusMind sub2api rejeita com 422 quando presentes.
+* **ADR:** `docs/adr/0003-no-resolution-duration-in-payload.md`
