@@ -15,8 +15,8 @@ services:
       - COMFYUI_API_TOKEN=YOUR_API_TOKEN_HERE
       # MinIO S3 for NexusVideo image-to-video uploads (image must be publicly accessible)
       - MINIO_ENDPOINT=s3.fragaai.com.br
-      - MINIO_ACCESS_KEY=ZwIJv7DO2QV8hp51
-      - MINIO_SECRET_KEY=l7YKI7ptNxqWCm1KV
+      - MINIO_ACCESS_KEY=YOUR_MINIO_ACCESS_KEY
+      - MINIO_SECRET_KEY=YOUR_MINIO_SECRET_KEY
       - MINIO_BUCKET=comfyui-images
       - MINIO_SECURE=true
     volumes:
