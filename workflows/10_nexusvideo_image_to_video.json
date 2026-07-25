@@ -1,4 +1,6 @@
 {
+  "id": "4c1fccdd-5411-4dc8-a9af-9e7f5f922aa2",
+  "revision": 0,
   "last_node_id": 4,
   "last_link_id": 3,
   "nodes": [
@@ -14,25 +16,40 @@
         400
       ],
       "flags": {},
-      "order": 1,
+      "order": 0,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "imagem",
           "name": "image",
-          "type": "IMAGE",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "escolher arquivo para enviar",
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
           "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "IMAGEM",
           "name": "IMAGE",
           "type": "IMAGE",
+          "slot_index": 0,
           "links": [
             1
-          ],
-          "slot_index": 0
+          ]
         },
         {
+          "localized_name": "MÁSCARA",
           "name": "MASK",
           "type": "MASK",
           "links": null
@@ -42,7 +59,7 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "example.png",
+        "clipspace-painted-masked-1784960055501.png",
         "image"
       ]
     },
@@ -58,43 +75,135 @@
         500
       ],
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "image",
           "name": "image",
+          "shape": 7,
           "type": "IMAGE",
           "link": 1
         },
         {
-          "name": "image_url",
+          "localized_name": "base_url",
+          "name": "base_url",
           "type": "STRING",
+          "widget": {
+            "name": "base_url"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "api_key",
+          "name": "api_key",
+          "type": "STRING",
+          "widget": {
+            "name": "api_key"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "COMBO",
+          "widget": {
+            "name": "model"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "resolution",
+          "name": "resolution",
+          "type": "COMBO",
+          "widget": {
+            "name": "resolution"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "duration",
+          "name": "duration",
+          "type": "COMBO",
+          "widget": {
+            "name": "duration"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "auto_poll",
+          "name": "auto_poll",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "auto_poll"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "poll_interval",
+          "name": "poll_interval",
+          "type": "INT",
+          "widget": {
+            "name": "poll_interval"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "max_wait_time",
+          "name": "max_wait_time",
+          "type": "INT",
+          "widget": {
+            "name": "max_wait_time"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "image_url",
+          "name": "image_url",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "image_url"
+          },
           "link": null
         }
       ],
       "outputs": [
         {
+          "localized_name": "video_url",
           "name": "video_url",
           "type": "STRING",
+          "slot_index": 0,
           "links": [
             2
-          ],
-          "slot_index": 0
+          ]
         },
         {
+          "localized_name": "video_id",
           "name": "video_id",
           "type": "STRING",
           "links": null
         },
         {
+          "localized_name": "status",
           "name": "status",
           "type": "STRING",
+          "slot_index": 2,
           "links": [
             3
-          ],
-          "slot_index": 2
+          ]
         },
         {
+          "localized_name": "response_json",
           "name": "response_json",
           "type": "STRING",
           "links": null
@@ -112,31 +221,58 @@
         "5",
         true,
         5,
-        300
+        300,
+        ""
       ]
     },
     {
       "id": 3,
       "type": "SaveText",
       "pos": [
-        980,
-        350
+        993,
+        476
       ],
       "size": [
         300,
-        100
+        202
       ],
       "flags": {},
       "order": 3,
       "mode": 0,
       "inputs": [
         {
+          "localized_name": "text",
           "name": "text",
           "type": "STRING",
           "link": 3
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "format",
+          "name": "format",
+          "type": "COMBO",
+          "widget": {
+            "name": "format"
+          },
+          "link": null
         }
       ],
-      "outputs": [],
+      "outputs": [
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
       "properties": {
         "Node name for S&R": "SaveText"
       },
@@ -153,24 +289,43 @@
         150
       ],
       "size": [
-        300,
+        311,
         200
       ],
       "flags": {},
-      "order": 4,
+      "order": 2,
       "mode": 0,
       "inputs": [
         {
-          "name": "filepath",
+          "localized_name": "video_path",
+          "name": "video_path",
           "type": "STRING",
+          "widget": {
+            "name": "video_path"
+          },
           "link": 2
         }
       ],
-      "outputs": [],
+      "outputs": [
+        {
+          "localized_name": "video",
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        },
+        {
+          "localized_name": "video_path",
+          "name": "video_path",
+          "type": "STRING",
+          "links": null
+        }
+      ],
       "properties": {
         "Node name for S&R": "PreviewVideo"
       },
-      "widgets_values": []
+      "widgets_values": [
+        ""
+      ]
     }
   ],
   "links": [
@@ -179,7 +334,7 @@
       1,
       0,
       2,
-      1,
+      0,
       "IMAGE"
     ],
     [
@@ -201,6 +356,14 @@
   ],
   "groups": [],
   "config": {},
-  "extra": {},
+  "extra": {
+    "ds": {
+      "scale": 1.01,
+      "offset": [
+        149,
+        154
+      ]
+    }
+  },
   "version": 0.4
 }
