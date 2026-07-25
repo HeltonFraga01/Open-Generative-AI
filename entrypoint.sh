@@ -81,6 +81,13 @@ fi
 
 rm -rf /root/.cache/comfyui /workspace/web 2>/dev/null || true
 
+# Install runtime deps for custom nodes that were installed via Manager
+# These are NOT in the Dockerfile because the nodes are installed in a volume at runtime
+if [ -d /workspace/custom_nodes/llm-toolkit ]; then
+    echo "Installing llm-toolkit runtime deps (google-genai)..."
+    pip install --no-cache-dir google-genai 2>/dev/null || true
+fi
+
 # Run ComfyUI with server optimization flags (no --multi-user — single user only)
 exec python /app/ComfyUI/main.py \
     --listen 0.0.0.0 \
