@@ -60,18 +60,21 @@ class GeminiAntigravityImage:
     def generate(self, base_url, api_key, model, prompt, aspect_ratio):
         url = f"{base_url}/models/{model}:generateContent"
 
+        # Gemini v1beta generateContent does NOT accept aspectRatio in generationConfig.
+        # Instead, append aspect ratio as a textual instruction in the prompt.
+        effective_prompt = prompt
+        if aspect_ratio != "auto":
+            effective_prompt = f"{prompt}\n\nAspect ratio: {aspect_ratio}"
+
         body_dict = {
             "contents": [{
                 "role": "user",
-                "parts": [{"text": prompt}],
+                "parts": [{"text": effective_prompt}],
             }],
             "generationConfig": {
                 "responseModalities": ["TEXT", "IMAGE"],
             },
         }
-
-        if aspect_ratio != "auto":
-            body_dict["generationConfig"]["aspectRatio"] = aspect_ratio
 
         body = json.dumps(body_dict).encode("utf-8")
 
@@ -103,18 +106,19 @@ class GeminiAntigravityImage:
 
             if image_tensor is not None:
                 return (image_tensor, " | ".join(status_parts))
-            else:
-                # No image — return blank + error status
-                blank = torch.zeros((1, 512, 512, 3), dtype=torch.float32)
-                return (blank, "no image in response: " + json.dumps(result)[:300])
+
+            # No inlineData — log the FULL response for visibility AND raise to surface in UI
+            raw = json.dumps(result)[:500]
+            print(f"[GeminiAntigravityImage] No image in response:\n{raw}")
+            raise ValueError(f"No image in Gemini response (likely 200 with no inlineData): {raw}")
 
         except urllib.error.HTTPError as e:
-            err_body = e.read().decode("utf-8", errors="replace")[:300]
-            blank = torch.zeros((1, 512, 512, 3), dtype=torch.float32)
-            return (blank, f"HTTP {e.code}: {err_body}")
+            err_body = e.read().decode("utf-8", errors="replace")[:500]
+            print(f"[GeminiAntigravityImage] HTTP {e.code} from upstream:\n{err_body}")
+            raise RuntimeError(f"GeminiAntigravity HTTP {e.code}: {err_body}")
         except Exception as e:
-            blank = torch.zeros((1, 512, 512, 3), dtype=torch.float32)
-            return (blank, f"error: {str(e)[:300]}")
+            print(f"[GeminiAntigravityImage] Exception: {str(e)[:500]}")
+            raise RuntimeError(f"GeminiAntigravity error: {str(e)[:500]}")
 
 
 NODE_CLASS_MAPPINGS = {

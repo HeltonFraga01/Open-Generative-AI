@@ -1,0 +1,173 @@
+{
+  "id": "gemini-to-grok-video-001",
+  "revision": 0,
+  "last_node_id": 4,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "GeminiAntigravityImage",
+      "pos": [
+        100,
+        100
+      ],
+      "size": [
+        420,
+        280
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": null
+        }
+      ],
+      "title": "Gemini Antigravity (Frame 0)",
+      "properties": {
+        "Node name for S&R": "GeminiAntigravityImage"
+      },
+      "widgets_values": [
+        "https://api.nexusmind.digital/antigravity/v1beta",
+        "",
+        "gemini-3-pro-image",
+        "lone astronaut in scorched flight suit / desert at dusk / photoreal cinematic still / low angle hero / 35mm anamorphic / harsh key + warm rim / teal-orange / film grain",
+        "16:9"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "SaveImage",
+      "pos": [
+        560,
+        100
+      ],
+      "size": [
+        320,
+        260
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 1
+        }
+      ],
+      "outputs": [],
+      "title": "Save Frame 0",
+      "widgets_values": [
+        "Gemini_Frame0"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "NexusVideo",
+      "pos": [
+        920,
+        100
+      ],
+      "size": [
+        420,
+        400
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "video_url",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            2
+          ]
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": [
+            3
+          ]
+        },
+        {
+          "name": "request_id",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": null
+        },
+        {
+          "name": "download_url",
+          "type": "STRING",
+          "slot_index": 3,
+          "links": null
+        }
+      ],
+      "title": "NexusVideo i2v (Grok Imagine)",
+      "properties": {
+        "Node name for S&R": "NexusVideo"
+      },
+      "widgets_values": [
+        "https://api.nexusmind.digital/v1",
+        "sk-440cead750d9a0dc76831d5c9903f192fdb778c788c58a2ece6f249bfb9b77f8",
+        "grok-imagine-video-1.5",
+        "camera dollies in slowly, subject remains still, heat haze rises, dust particles drift",
+        "720p",
+        "5",
+        "True",
+        "5"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "PreviewVideo",
+      "pos": [
+        1380,
+        100
+      ],
+      "size": [
+        320,
+        260
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Preview Video",
+      "widgets_values": [
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
